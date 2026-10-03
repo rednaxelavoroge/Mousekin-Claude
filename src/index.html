@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Clocktown</title>
+<meta name="theme-color" content="#0e1018">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <div id="viewport"></div>
+
+  <div id="textPanel" hidden>
+    <div id="textInner"></div>
+  </div>
+
+  <div id="topbar" class="ui" hidden>
+    <button id="btnPages" aria-label="Pages" title="Pages">
+      <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+    </button>
+    <div id="langs" role="group" aria-label="Language"></div>
+    <button id="btnNarr" aria-label="Narration" title="Narration">
+      <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 4V6L7 10z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke-width="2" stroke-linecap="round"/><path class="off" d="M4 4l16 16" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </button>
+    <button id="btnSfx" aria-label="Sound and music" title="Sound and music">
+      <svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/><path class="off" d="M4 4l16 16" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </button>
+    <button id="btnText" aria-label="Text" title="Text">
+      <svg viewBox="0 0 24 24"><path d="M4 18 9.5 5h1L16 18h-2.2l-1.2-3H6.9l-1.2 3zM7.6 13h4.2L9.7 7.7zM18 18v-7h-1.6V9.6H18V8l1.8-.5v2.1h1.4V11h-1.4v5.2c0 .6.2.8.7.8h.7V18z"/></svg>
+    </button>
+    <button id="btnOffline" aria-label="Offline" title="Offline">
+      <svg viewBox="0 0 24 24"><path d="M12 3v11m0 0-4-4m4 4 4-4M5 17v3h14v-3" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="offlineBadge"></span>
+    </button>
+    <button id="btnInstall" aria-label="Install" title="Install" hidden>
+      <svg viewBox="0 0 24 24"><path d="M12 4v10m0 0-4-4m4 4 4-4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <button id="navPrev" class="nav ui" aria-label="Previous" hidden><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button id="navNext" class="nav ui" aria-label="Next" hidden><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div id="pageNo" class="ui" hidden></div>
+
+  <div id="pages" hidden>
+    <div id="pagesGrid"></div>
+    <button id="pagesClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg></button>
+  </div>
+
+  <div id="start">
+    <div id="startBg"></div>
+    <div id="startCard">
+      <h1 id="startTitle"></h1>
+      <div id="startAuthor"></div>
+      <div id="startLangs" role="group"></div>
+      <button id="startBtn" disabled>…</button>
+      <div id="startNote"></div>
+    </div>
+  </div>
+
+  <div id="loader" hidden><i></i></div>
+  <div id="toast" hidden></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
