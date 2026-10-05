@@ -251,20 +251,31 @@
     const dock = document.createElement('div');
     dock.className = 'mk-dock';
     dock.id = 'mousekinDock';
+    const currentPath = window.location.pathname.toLowerCase();
+    let curLang = 'RU';
+    if (currentPath.includes('/en') || currentPath.includes('/clocktown')) curLang = 'EN';
+    else if (currentPath.includes('/de') || currentPath.includes('/uhrenstadt')) curLang = 'DE';
+
+    const dockTexts = {
+      RU: { title: 'Там, где заводится время', sub: 'Интерактивная сказка (PWA)', read: 'Читать онлайн', install: '📲 Установить', href: '/app/?lang=ru' },
+      EN: { title: 'The Little Mouse in Clocktown', sub: 'Interactive Storybook (PWA)', read: 'Read Online', install: '📲 Install', href: '/app/?lang=en' },
+      DE: { title: 'Wo die Zeit entsteht', sub: 'Interaktives Bilderbuch (PWA)', read: 'Online lesen', install: '📲 Installieren', href: '/app/?lang=de' }
+    }[curLang];
+
     dock.innerHTML = `
       <div class="mk-dock-avatar">
         <img src="/icons/icon-192.png" alt="Мышонок">
       </div>
       <div class="mk-dock-info">
-        <div class="mk-dock-title">Там, где заводится время</div>
-        <div class="mk-dock-sub">Интерактивная книга (PWA)</div>
+        <div class="mk-dock-title">${dockTexts.title}</div>
+        <div class="mk-dock-sub">${dockTexts.sub}</div>
       </div>
-      <a href="/app/" class="mk-dock-btn">
+      <a href="${dockTexts.href}" class="mk-dock-btn">
         <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Читать онлайн
+        ${dockTexts.read}
       </a>
       <button class="mk-dock-btn" style="background:rgba(255,255,255,0.15);color:#fff!important;border:1px solid rgba(255,255,255,0.3);box-shadow:none;" onclick="MousekinPWA.openInstallModal()">
-        📲 Установить
+        ${dockTexts.install}
       </button>
       <button class="mk-dock-close" onclick="document.getElementById('mousekinDock').remove()" aria-label="Закрыть">✕</button>
     `;
@@ -282,19 +293,36 @@
     }, { passive: true });
   }
 
-  // 5. Inject "✨ Читать онлайн" into Navigation Menus
+  // 5. Inject "✨ Читать онлайн" and Language Switcher into Navigation Menus
   function enhanceMenu() {
+    const currentPath = window.location.pathname.toLowerCase();
+    let curLang = 'RU';
+    if (currentPath.includes('/en') || currentPath.includes('/clocktown')) curLang = 'EN';
+    else if (currentPath.includes('/de') || currentPath.includes('/uhrenstadt')) curLang = 'DE';
+
+    const menuInfo = {
+      RU: { text: 'Читать онлайн', href: '/app/?lang=ru' },
+      EN: { text: 'Read Online', href: '/app/?lang=en' },
+      DE: { text: 'Online lesen', href: '/app/?lang=de' }
+    }[curLang];
+
     const menus = document.querySelectorAll('.t280__menu, .t-menu__list');
     menus.forEach((menu) => {
-      if (!menu.querySelector('.mk-menu-read-btn')) {
-        const btn = document.createElement('a');
-        btn.className = 'mk-menu-read-btn';
-        btn.href = '/app/';
-        btn.innerHTML = `
-          <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          Читать онлайн
+      if (!menu.querySelector('.mk-menu-bar')) {
+        const bar = document.createElement('div');
+        bar.className = 'mk-menu-bar';
+        bar.innerHTML = `
+          <a href="${menuInfo.href}" class="mk-menu-read-btn">
+            <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            ${menuInfo.text}
+          </a>
+          <div class="mk-lang-switcher">
+            <a href="/" class="mk-lang-btn ${curLang === 'RU' ? 'active' : ''}">RU</a>
+            <a href="/en" class="mk-lang-btn ${curLang === 'EN' ? 'active' : ''}">EN</a>
+            <a href="/de" class="mk-lang-btn ${curLang === 'DE' ? 'active' : ''}">DE</a>
+          </div>
         `;
-        menu.prepend(btn);
+        menu.prepend(bar);
       }
     });
   }

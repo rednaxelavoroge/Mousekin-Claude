@@ -568,3 +568,46 @@ html {
     display: none;
   }
 }
+
+/* Navigation Menu Bar & Language Switcher */
+.mk-menu-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.mk-lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(30, 24, 16, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 230, 128, 0.35);
+  border-radius: 9999px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.mk-lang-btn {
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fcf6d6 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.mk-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff !important;
+}
+
+.mk-lang-btn.active {
+  background: #f59e0b;
+  color: #1a1202 !important;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
+}

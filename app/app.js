@@ -642,7 +642,8 @@ async function boot() {
   catch (e) { $('startNote').textContent = 'data/book.json: ' + e.message; return; }
   tickMs = book.tickMs || 50;
   const nav = (navigator.language || 'en').slice(0, 2).toUpperCase();
-  lang = store.get('lang', null) || (book.langs.includes(nav) ? nav : book.defaultLang);
+  const urlLang = (new URLSearchParams(location.search).get('lang') || '').toUpperCase();
+  lang = (urlLang && book.langs.includes(urlLang)) ? urlLang : (store.get('lang', null) || (book.langs.includes(nav) ? nav : book.defaultLang));
   document.title = book.title;
   $('startTitle').textContent = book.title;
   $('startAuthor').textContent = book.author || '';
