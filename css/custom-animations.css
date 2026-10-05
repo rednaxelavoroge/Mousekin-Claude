@@ -234,3 +234,35 @@
 .mk-lang-btn:hover:not(.active) {
   background: rgba(163, 134, 6, 0.25);
 }
+
+/* Hero Typography Contrast: warm fairy-tale ink on watercolor cover */
+#rec11695452 .t001__title,
+#rec11695452 .t001__title div,
+#rec11695452 .t001__title strong,
+#rec12481256 .t001__title,
+#rec12481256 .t001__title div,
+#rec12481256 .t001__title strong {
+  color: #2b1d0c !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 248, 220, 0.95) !important;
+}
+
+#rec11695452 .t001__descr,
+#rec11695452 .t001__descr div,
+#rec11695452 .t001__descr strong,
+#rec12481256 .t001__descr,
+#rec12481256 .t001__descr div,
+#rec12481256 .t001__descr strong {
+  color: #26190a !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 16px rgba(255, 250, 225, 1), 0 0 32px rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.45 !important;
+}
+
+#rec11695452 .t635__typing-text,
+#rec12481256 .t635__typing-text {
+  color: #a38606 !important;
+}
+
+#rec11695452 .typed-cursor,
+#rec12481256 .typed-cursor {
+  color: #a38606 !important;
+}
