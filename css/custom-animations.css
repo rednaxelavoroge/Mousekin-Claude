@@ -1,5 +1,6 @@
 /* ========================================================
-   Mousekin Clocktown — Modern Fairy-Tale Animations & PWA UI
+   Mousekin Clocktown — PWA & Multilingual Navigation Styles
+   (Preserves 100% of original Tilda watercolor art and layout)
    ======================================================== */
 
 :root {
@@ -13,385 +14,25 @@
   --mk-glow: rgba(244, 196, 66, 0.45);
 }
 
-/* Smooth Scrolling & Polish */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Canvas background for Hero Stars & Clockwork */
-#mousekinHeroCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Keyframe Animations */
-@keyframes mkFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(1.5deg); }
-}
-
-@keyframes mkPulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(244, 196, 66, 0.4), 0 0 40px rgba(244, 196, 66, 0.2);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(244, 196, 66, 0.75), 0 0 60px rgba(244, 196, 66, 0.35);
-    transform: scale(1.025);
-  }
-}
-
-@keyframes mkShimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes mkGearSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes mkFadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Hero CTA Section */
-.mousekin-hero-cta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  margin-top: 36px;
-  position: relative;
-  z-index: 10;
-}
-
-.mousekin-btn-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-}
-
-/* Primary Play Button */
-.mk-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 36px;
-  border-radius: 9999px;
-  background: linear-gradient(135deg, #ffd447 0%, #f59e0b 50%, #d97706 100%);
-  color: #1a1202 !important;
-  font-family: inherit;
-  font-size: 19px;
-  font-weight: 800;
-  text-decoration: none !important;
-  letter-spacing: 0.5px;
-  border: 2px solid rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation: mkPulseGlow 3.5s infinite ease-in-out;
-  position: relative;
-  overflow: hidden;
-}
-
-.mk-btn-primary:hover {
-  transform: translateY(-3px) scale(1.04) !important;
-  box-shadow: 0 14px 40px rgba(245, 158, 11, 0.65) !important;
-  color: #000 !important;
-}
-
-.mk-btn-primary svg {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-  transition: transform 0.2s ease;
-}
-
-.mk-btn-primary:hover svg {
-  transform: scale(1.15);
-}
-
-/* Secondary Install Button */
-.mk-btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px 30px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #1f1d19 !important;
-  font-family: inherit;
-  font-size: 17px;
-  font-weight: 700;
-  text-decoration: none !important;
-  border: 1.5px solid rgba(217, 119, 6, 0.35);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-.mk-btn-secondary:hover {
-  background: #ffffff;
-  border-color: #d97706;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
-}
-
-.mk-btn-secondary svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-
-/* Feature Badges below Hero */
-.mk-badges {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.mk-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(30, 20, 10, 0.65);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 230, 128, 0.3);
-  color: #fcf6d6;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-
-/* Header Menu Button */
-.mk-menu-read-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, #ffe100, #ff9500);
-  color: #141202 !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  padding: 8px 18px !important;
-  border-radius: 9999px !important;
-  text-decoration: none !important;
-  margin-left: 12px;
-  box-shadow: 0 4px 14px rgba(255, 180, 0, 0.4);
-  transition: all 0.2s ease;
-}
-
-.mk-menu-read-btn:hover {
-  transform: scale(1.06);
-  box-shadow: 0 6px 20px rgba(255, 180, 0, 0.65);
-}
-
-/* Modern Download Cards in Tilda Sections */
-.mk-modern-download-card {
-  max-width: 680px;
-  margin: 20px auto 0;
-  padding: 32px 28px;
-  border-radius: 28px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 250, 240, 0.98));
-  box-shadow: 0 20px 50px rgba(80, 60, 20, 0.15), 0 0 0 1px rgba(230, 180, 80, 0.3);
-  text-align: center;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  position: relative;
-  overflow: hidden;
-}
-
-.mk-modern-download-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 5px;
-  background: linear-gradient(90deg, #ffd447, #ff6b6b, #48dbfb, #ffd447);
-  background-size: 300% 100%;
-  animation: mkShimmer 6s linear infinite;
-}
-
-.mk-card-badge {
-  display: inline-block;
-  padding: 4px 14px;
-  background: rgba(217, 119, 6, 0.12);
-  color: #b45309;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-}
-
-.mk-card-title {
-  font-size: 26px;
-  font-weight: 800;
-  color: #1a1202;
-  margin-bottom: 10px;
-  line-height: 1.25;
-}
-
-.mk-card-subtitle {
-  font-size: 16px;
-  color: #5c5549;
-  line-height: 1.5;
-  margin-bottom: 24px;
-  max-width: 520px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.mk-card-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-
-.mk-card-hint {
-  font-size: 13px;
-  color: #8c8273;
-}
-
-/* Floating Bottom Dock / Pill */
-.mk-dock {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%) translateY(120px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 8px 14px 8px 10px;
-  border-radius: 9999px;
-  background: var(--mk-night-trans);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 230, 120, 0.35);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.mk-dock.visible {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.mk-dock-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #ffdb58;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  border: 2px solid #fff;
-  flex-shrink: 0;
-  animation: mkFloat 3s infinite ease-in-out;
-}
-
-.mk-dock-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.mk-dock-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.mk-dock-title {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.mk-dock-sub {
-  color: #ffd447;
-  font-size: 12px;
-  line-height: 1.2;
-}
-
-.mk-dock-btn {
-  padding: 9px 18px;
-  border-radius: 9999px;
-  background: linear-gradient(135deg, #ffd447, #f59e0b);
-  color: #1a1202 !important;
-  font-size: 13px;
-  font-weight: 800;
-  text-decoration: none !important;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-  transition: transform 0.2s ease;
-}
-
-.mk-dock-btn:hover {
-  transform: scale(1.05);
-}
-
-.mk-dock-close {
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: color 0.2s ease;
-}
-
-.mk-dock-close:hover {
-  color: #fff;
-}
-
-/* PWA Install Modal */
+/* Modal Install Dialog for Mobile / Desktop */
 .mk-modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(14, 16, 24, 0.82);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 100000;
+  z-index: 999999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 20px;
+  box-sizing: border-box;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mk-modal-overlay.open {
@@ -400,100 +41,104 @@ html {
 }
 
 .mk-modal-box {
-  background: #ffffff;
-  border-radius: 28px;
-  max-width: 480px;
+  background: #18151f;
+  border: 1px solid rgba(244, 196, 66, 0.35);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(244, 196, 66, 0.15);
+  border-radius: 24px;
+  max-width: 460px;
   width: 100%;
   padding: 32px 28px;
+  box-sizing: border-box;
   position: relative;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
-  transform: translateY(20px) scale(0.96);
+  color: #fcf6d6;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transform: scale(0.94) translateY(12px);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .mk-modal-overlay.open .mk-modal-box {
-  transform: translateY(0) scale(1);
+  transform: scale(1) translateY(0);
 }
 
 .mk-modal-close-btn {
   position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.08);
   border: none;
-  background: #f3f4f6;
-  color: #4b5563;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s;
 }
 
 .mk-modal-close-btn:hover {
-  background: #e5e7eb;
-  color: #111827;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .mk-modal-header {
   text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .mk-modal-icon {
   width: 72px;
   height: 72px;
-  border-radius: 20px;
   margin: 0 auto 14px;
-  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35);
+  border-radius: 18px;
   overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(244, 196, 66, 0.3);
 }
 
 .mk-modal-icon img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: block;
 }
 
 .mk-modal-title {
   font-size: 22px;
-  font-weight: 800;
-  color: #111827;
-  margin-bottom: 6px;
+  font-weight: 700;
+  color: #ffe680;
+  margin-bottom: 8px;
 }
 
 .mk-modal-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: rgba(252, 246, 214, 0.75);
   line-height: 1.45;
 }
 
 .mk-modal-steps {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 24px;
 }
 
 .mk-step-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
-  padding: 12px 16px;
-  background: #f9fafb;
-  border-radius: 16px;
-  border: 1px solid #f3f4f6;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 14px;
+  border-radius: 14px;
 }
 
 .mk-step-num {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #f59e0b;
-  color: #fff;
-  font-weight: 700;
+  background: var(--mk-gold);
+  color: #1a1202;
+  font-weight: 800;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -503,111 +148,89 @@ html {
 
 .mk-step-text {
   font-size: 14px;
-  color: #374151;
-  font-weight: 500;
-}
-
-.mk-step-text strong {
-  color: #111827;
+  line-height: 1.4;
+  color: #fcf6d6;
 }
 
 .mk-modal-btn-install {
   width: 100%;
   padding: 14px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #ffd447, #f59e0b);
-  border: none;
-  font-size: 16px;
-  font-weight: 800;
+  background: linear-gradient(135deg, #ffd447 0%, #f59e0b 100%);
   color: #1a1202;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
-  transition: transform 0.2s ease;
+  gap: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .mk-modal-btn-install:hover {
   transform: translateY(-2px);
-}
-
-/* Card hover enhancements for existing Tilda blocks */
-.t470__col, .t402__col, .t381__col {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease !important;
-}
-
-.t470__col:hover, .t402__col:hover, .t381__col:hover {
-  transform: translateY(-6px) scale(1.02) !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .mk-btn-primary {
-    padding: 14px 26px;
-    font-size: 17px;
-    width: 100%;
-    justify-content: center;
-  }
-  .mk-btn-secondary {
-    padding: 13px 22px;
-    font-size: 15px;
-    width: 100%;
-    justify-content: center;
-  }
-  .mousekin-btn-group {
-    width: 100%;
-  }
-  .mk-dock {
-    width: calc(100% - 24px);
-    justify-content: space-between;
-    padding: 8px 12px;
-  }
-  .mk-dock-sub {
-    display: none;
-  }
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.45);
 }
 
 /* Navigation Menu Bar & Language Switcher */
 .mk-menu-bar {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 12px;
+  gap: 12px;
+  padding: 12px 0 20px 0;
+  border-bottom: 1px solid rgba(163, 134, 6, 0.25);
+  margin-bottom: 20px;
+}
+
+.mk-menu-read-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #a38606;
+  color: #fcf6d6 !important;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.mk-menu-read-btn:hover {
+  background: #c29d07;
+  transform: translateY(-1px);
 }
 
 .mk-lang-switcher {
   display: inline-flex;
-  align-items: center;
-  background: rgba(30, 24, 16, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 230, 128, 0.35);
-  border-radius: 9999px;
-  padding: 3px;
-  gap: 3px;
+  gap: 4px;
+  background: rgba(163, 134, 6, 0.15);
+  padding: 4px;
+  border-radius: 18px;
 }
 
 .mk-lang-btn {
-  padding: 5px 12px;
-  border-radius: 9999px;
-  font-size: 13px;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 12px;
   font-weight: 700;
-  color: #fcf6d6 !important;
+  color: #a38606 !important;
   text-decoration: none !important;
   transition: all 0.2s ease;
-  line-height: 1;
-}
-
-.mk-lang-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff !important;
 }
 
 .mk-lang-btn.active {
-  background: #f59e0b;
-  color: #1a1202 !important;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
+  background: #a38606;
+  color: #fcf6d6 !important;
+}
+
+.mk-lang-btn:hover:not(.active) {
+  background: rgba(163, 134, 6, 0.25);
 }

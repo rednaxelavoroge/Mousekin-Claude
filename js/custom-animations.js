@@ -1,5 +1,6 @@
 /* ========================================================
-   Mousekin Clocktown — Modern Fairy-Tale Animations & PWA Controller
+   Mousekin Clocktown — PWA & Multilingual Navigation Controller
+   (Preserves 100% of original Tilda watercolor art and layout)
    ======================================================== */
 
 (function () {
@@ -15,7 +16,6 @@
   // 2. Global PWA Controller Object
   let deferredPrompt = null;
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -30,7 +30,6 @@
       if (!modal) {
         modal = createModal();
       }
-      // Configure steps based on platform
       const stepsContainer = document.getElementById('mkModalSteps');
       const nativeBtn = document.getElementById('mkModalNativeBtn');
 
@@ -132,168 +131,7 @@
     return overlay;
   }
 
-  // 3. Canvas Star Dust & Floating Gears in Hero Cover
-  function initHeroCanvas() {
-    const heroCover = document.querySelector('#rec11695452 .t-cover') || document.querySelector('.t-cover');
-    if (!heroCover) return;
-
-    // Ensure relative positioning
-    heroCover.style.position = 'relative';
-
-    const canvas = document.createElement('canvas');
-    canvas.id = 'mousekinHeroCanvas';
-    heroCover.insertBefore(canvas, heroCover.firstChild);
-
-    const ctx = canvas.getContext('2d');
-    let width = (canvas.width = heroCover.offsetWidth);
-    let height = (canvas.height = heroCover.offsetHeight);
-
-    window.addEventListener('resize', () => {
-      if (!heroCover) return;
-      width = canvas.width = heroCover.offsetWidth;
-      height = canvas.height = heroCover.offsetHeight;
-    });
-
-    // Particle definition: Golden Stars and Floating Gears
-    const stars = Array.from({ length: 45 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: Math.random() * 2 + 0.8,
-      alpha: Math.random() * 0.7 + 0.3,
-      alphaSpeed: (Math.random() * 0.02 + 0.005) * (Math.random() < 0.5 ? 1 : -1),
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3
-    }));
-
-    const gears = [
-      { x: width * 0.15, y: height * 0.25, r: 42, teeth: 10, angle: 0, speed: 0.004, alpha: 0.22 },
-      { x: width * 0.85, y: height * 0.3, r: 60, teeth: 14, angle: 0, speed: -0.003, alpha: 0.25 },
-      { x: width * 0.82, y: height * 0.75, r: 35, teeth: 8, angle: 0, speed: 0.005, alpha: 0.2 }
-    ];
-
-    function drawGear(g) {
-      ctx.save();
-      ctx.translate(g.x, g.y);
-      ctx.rotate(g.angle);
-      ctx.strokeStyle = `rgba(245, 210, 110, ${g.alpha})`;
-      ctx.lineWidth = 1.8;
-
-      ctx.beginPath();
-      const step = (Math.PI * 2) / (g.teeth * 2);
-      for (let i = 0; i < g.teeth * 2; i++) {
-        const rad = i % 2 === 0 ? g.r : g.r - 8;
-        const a = i * step;
-        const px = Math.cos(a) * rad;
-        const py = Math.sin(a) * rad;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-      ctx.stroke();
-
-      // Inner hub circle
-      ctx.beginPath();
-      ctx.arc(0, 0, g.r * 0.35, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.restore();
-    }
-
-    let isVisible = true;
-    const observer = new IntersectionObserver((entries) => {
-      isVisible = entries[0].isIntersecting;
-    });
-    observer.observe(heroCover);
-
-    function animate() {
-      if (isVisible) {
-        ctx.clearRect(0, 0, width, height);
-
-        // Animate and draw gears
-        for (const g of gears) {
-          g.angle += g.speed;
-          drawGear(g);
-        }
-
-        // Animate and draw stars
-        for (const s of stars) {
-          s.x += s.vx;
-          s.y += s.vy;
-          if (s.x < 0) s.x = width;
-          if (s.x > width) s.x = 0;
-          if (s.y < 0) s.y = height;
-          if (s.y > height) s.y = 0;
-
-          s.alpha += s.alphaSpeed;
-          if (s.alpha > 0.95 || s.alpha < 0.2) {
-            s.alphaSpeed = -s.alphaSpeed;
-          }
-
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 235, 150, ${s.alpha})`;
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
-  }
-
-  // 4. Floating Bottom Dock (Sliding Quick Launch)
-  function initFloatingDock() {
-    if (isStandalone) return; // Don't show inside standalone PWA
-
-    const dock = document.createElement('div');
-    dock.className = 'mk-dock';
-    dock.id = 'mousekinDock';
-    const currentPath = window.location.pathname.toLowerCase();
-    let curLang = 'RU';
-    if (currentPath.includes('/en') || currentPath.includes('/clocktown')) curLang = 'EN';
-    else if (currentPath.includes('/de') || currentPath.includes('/uhrenstadt')) curLang = 'DE';
-
-    const dockTexts = {
-      RU: { title: 'Там, где заводится время', sub: 'Интерактивная сказка (PWA)', read: 'Читать онлайн', install: '📲 Установить', href: '/app/?lang=ru' },
-      EN: { title: 'The Little Mouse in Clocktown', sub: 'Interactive Storybook (PWA)', read: 'Read Online', install: '📲 Install', href: '/app/?lang=en' },
-      DE: { title: 'Wo die Zeit entsteht', sub: 'Interaktives Bilderbuch (PWA)', read: 'Online lesen', install: '📲 Installieren', href: '/app/?lang=de' }
-    }[curLang];
-
-    dock.innerHTML = `
-      <div class="mk-dock-avatar">
-        <img src="/icons/icon-192.png" alt="Мышонок">
-      </div>
-      <div class="mk-dock-info">
-        <div class="mk-dock-title">${dockTexts.title}</div>
-        <div class="mk-dock-sub">${dockTexts.sub}</div>
-      </div>
-      <a href="${dockTexts.href}" class="mk-dock-btn">
-        <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        ${dockTexts.read}
-      </a>
-      <button class="mk-dock-btn" style="background:rgba(255,255,255,0.15);color:#fff!important;border:1px solid rgba(255,255,255,0.3);box-shadow:none;" onclick="MousekinPWA.openInstallModal()">
-        ${dockTexts.install}
-      </button>
-      <button class="mk-dock-close" onclick="document.getElementById('mousekinDock').remove()" aria-label="Закрыть">✕</button>
-    `;
-
-    document.body.appendChild(dock);
-
-    let dismissed = false;
-    window.addEventListener('scroll', () => {
-      if (dismissed) return;
-      if (window.scrollY > 400) {
-        dock.classList.add('visible');
-      } else {
-        dock.classList.remove('visible');
-      }
-    }, { passive: true });
-  }
-
-  // 5. Inject "✨ Читать онлайн" and Language Switcher into Navigation Menus
+  // 3. Inject "✨ Читать онлайн" and Language Switcher into Navigation Menus
   function enhanceMenu() {
     const currentPath = window.location.pathname.toLowerCase();
     let curLang = 'RU';
@@ -301,9 +139,9 @@
     else if (currentPath.includes('/de') || currentPath.includes('/uhrenstadt')) curLang = 'DE';
 
     const menuInfo = {
-      RU: { text: 'Читать онлайн', href: '/app/?lang=ru' },
-      EN: { text: 'Read Online', href: '/app/?lang=en' },
-      DE: { text: 'Online lesen', href: '/app/?lang=de' }
+      RU: { text: 'Читать онлайн (PWA)', href: '/app/?lang=ru' },
+      EN: { text: 'Read Online (PWA)', href: '/app/?lang=en' },
+      DE: { text: 'Online lesen (PWA)', href: '/app/?lang=de' }
     }[curLang];
 
     // Determine current subpage for contextual switching
@@ -342,13 +180,9 @@
   // Initialize on DOM Ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      initHeroCanvas();
-      initFloatingDock();
       enhanceMenu();
     });
   } else {
-    initHeroCanvas();
-    initFloatingDock();
     enhanceMenu();
   }
 
