@@ -306,6 +306,18 @@
       DE: { text: 'Online lesen', href: '/app/?lang=de' }
     }[curLang];
 
+    // Determine current subpage for contextual switching
+    let subSlug = '';
+    if (currentPath.includes('heroes')) subSlug = 'heroes';
+    else if (currentPath.includes('creators')) subSlug = 'creators';
+    else if (currentPath.includes('about')) subSlug = 'about_project';
+    else if (currentPath.includes('testimonials') || currentPath.includes('reviews')) subSlug = 'testimonials';
+    else if (currentPath.includes('privacy')) subSlug = 'privacy';
+
+    const ruHref = subSlug ? `/${subSlug}` : '/';
+    const enHref = subSlug ? `/en/${subSlug}` : '/en';
+    const deHref = subSlug ? `/de/${subSlug}` : '/de';
+
     const menus = document.querySelectorAll('.t280__menu, .t-menu__list');
     menus.forEach((menu) => {
       if (!menu.querySelector('.mk-menu-bar')) {
@@ -317,9 +329,9 @@
             ${menuInfo.text}
           </a>
           <div class="mk-lang-switcher">
-            <a href="/" class="mk-lang-btn ${curLang === 'RU' ? 'active' : ''}">RU</a>
-            <a href="/en" class="mk-lang-btn ${curLang === 'EN' ? 'active' : ''}">EN</a>
-            <a href="/de" class="mk-lang-btn ${curLang === 'DE' ? 'active' : ''}">DE</a>
+            <a href="${ruHref}" class="mk-lang-btn ${curLang === 'RU' ? 'active' : ''}">RU</a>
+            <a href="${enHref}" class="mk-lang-btn ${curLang === 'EN' ? 'active' : ''}">EN</a>
+            <a href="${deHref}" class="mk-lang-btn ${curLang === 'DE' ? 'active' : ''}">DE</a>
           </div>
         `;
         menu.prepend(bar);

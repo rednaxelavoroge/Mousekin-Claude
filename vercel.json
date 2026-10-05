@@ -4,10 +4,27 @@
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/ru", "destination": "/index.html" },
-    { "source": "/en", "destination": "/en.html" },
-    { "source": "/de", "destination": "/de.html" },
-    { "source": "/clocktown", "destination": "/en.html" },
-    { "source": "/uhrenstadt", "destination": "/de.html" },
+    { "source": "/en", "destination": "/en/index.html" },
+    { "source": "/de", "destination": "/de/index.html" },
+    { "source": "/clocktown", "destination": "/en/index.html" },
+    { "source": "/uhrenstadt", "destination": "/de/index.html" },
+
+    { "source": "/en/heroes", "destination": "/en/heroes.html" },
+    { "source": "/en/creators", "destination": "/en/creators.html" },
+    { "source": "/en/about_project", "destination": "/en/about_project.html" },
+    { "source": "/en/about", "destination": "/en/about_project.html" },
+    { "source": "/en/testimonials", "destination": "/en/testimonials.html" },
+    { "source": "/en/reviews", "destination": "/en/testimonials.html" },
+    { "source": "/en/privacy", "destination": "/en/privacy.html" },
+
+    { "source": "/de/heroes", "destination": "/de/heroes.html" },
+    { "source": "/de/creators", "destination": "/de/creators.html" },
+    { "source": "/de/about_project", "destination": "/de/about_project.html" },
+    { "source": "/de/about", "destination": "/de/about_project.html" },
+    { "source": "/de/testimonials", "destination": "/de/testimonials.html" },
+    { "source": "/de/reviews", "destination": "/de/testimonials.html" },
+    { "source": "/de/privacy", "destination": "/de/privacy.html" },
+
     { "source": "/heroes", "destination": "/heroes.html" },
     { "source": "/creators", "destination": "/creators.html" },
     { "source": "/about_project", "destination": "/about_project.html" },
@@ -16,6 +33,7 @@
     { "source": "/cheese", "destination": "/cheese.html" },
     { "source": "/receipts", "destination": "/receipts.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
+
     { "source": "/read", "destination": "/app/index.html" },
     { "source": "/play", "destination": "/app/index.html" },
     { "source": "/book", "destination": "/app/index.html" }
