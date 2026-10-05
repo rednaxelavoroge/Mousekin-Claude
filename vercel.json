@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/heroes", "destination": "/heroes.html" },
+    { "source": "/creators", "destination": "/creators.html" },
+    { "source": "/about_project", "destination": "/about_project.html" },
+    { "source": "/testimonials", "destination": "/testimonials.html" },
+    { "source": "/clocktown", "destination": "/clocktown.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/cheese", "destination": "/cheese.html" },
+    { "source": "/receipts", "destination": "/receipts.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/read", "destination": "/app/index.html" },
+    { "source": "/play", "destination": "/app/index.html" },
+    { "source": "/book", "destination": "/app/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/app/sw.js",
+      "headers": [
+        { "key": "Service-Worker-Allowed", "value": "/app/" },
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Service-Worker-Allowed", "value": "/" },
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(mp3|m4a|ogg|wav)",
+      "headers": [
+        { "key": "Accept-Ranges", "value": "bytes" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(webp|png|jpg|jpeg|svg|gif|woff2|woff|ttf)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}

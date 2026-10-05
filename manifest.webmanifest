@@ -1,0 +1,30 @@
+{
+  "name": "Там, где заводится время — Мышонок в Городе Часов",
+  "short_name": "Мышонок",
+  "description": "Интерактивная музыкальная сказка-приключение о Мышонке в Городе Часов с живой озвучкой и анимацией",
+  "start_url": "/app/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e1018",
+  "theme_color": "#a38606",
+  "categories": ["books", "entertainment", "kids", "education"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
