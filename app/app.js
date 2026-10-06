@@ -11,11 +11,14 @@ const store = {
 
 const I18N = {
   RU: { open: 'Открыть книгу', ios: 'Чтобы установить на iPhone: Поделиться → На экран «Домой»', tap: 'Нажмите, чтобы включить звук',
-        dl: 'Скачиваю для офлайна', dlDone: 'Готово: книга работает без интернета', dlFail: 'Не удалось скачать часть файлов', page: 'Страницы' },
+        dl: 'Скачиваю для офлайна', dlDone: 'Готово: книга работает без интернета', dlFail: 'Не удалось скачать часть файлов', page: 'Страницы',
+        closeText: 'Закрыть субтитры', text: 'Субтитры', home: 'На сайт' },
   EN: { open: 'Open the book', ios: 'To install on iPhone: Share → Add to Home Screen', tap: 'Tap to turn on sound',
-        dl: 'Downloading for offline', dlDone: 'Done: the book works offline', dlFail: 'Some files failed to download', page: 'Pages' },
+        dl: 'Downloading for offline', dlDone: 'Done: the book works offline', dlFail: 'Some files failed to download', page: 'Pages',
+        closeText: 'Hide subtitles', text: 'Subtitles', home: 'To website' },
   DE: { open: 'Buch öffnen', ios: 'Installation auf dem iPhone: Teilen → Zum Home-Bildschirm', tap: 'Tippen, um den Ton einzuschalten',
-        dl: 'Lade für Offline herunter', dlDone: 'Fertig: Das Buch funktioniert offline', dlFail: 'Einige Dateien konnten nicht geladen werden', page: 'Seiten' },
+        dl: 'Lade für Offline herunter', dlDone: 'Fertig: Das Buch funktioniert offline', dlFail: 'Einige Dateien konnten nicht geladen werden', page: 'Seiten',
+        closeText: 'Untertitel ausblenden', text: 'Untertitel', home: 'Zur Website' },
 };
 
 let book = null, lang = 'RU', cur = -1, busy = false, tickMs = 50, curScene = null, started = false;
@@ -299,51 +302,131 @@ function layoutText() {
   const st = p.style;
   for (const id of ['navPrev', 'navNext']) $(id).style.top = L.portrait ? (sc.by + sc.bh / 2) + 'px' : '';
   if (L.portrait) {
-    const fs = Math.max(18, Math.min(30, L.vw * 0.052)) * base;
+    const fs = Math.max(16, Math.min(24, L.vw * 0.046)) * base;
     st.fontSize = fs + 'px';
-    st.left = '12px'; st.right = '12px'; st.width = 'auto';
-    st.top = (sc.by + sc.bh + 10) + 'px'; st.bottom = (12 + L.safeB) + 'px'; st.maxHeight = 'none';
+    st.left = '10px'; st.right = '10px'; st.width = 'auto';
+    st.top = (sc.by + sc.bh + 10) + 'px'; st.bottom = 'auto'; st.maxHeight = 'none';
   } else {
-    const fs = Math.max(15, Math.min(30, 26 * sc.s * 1.08)) * base;
-    const pw = Math.min(sc.bw * 0.92, 900);
+    const fs = Math.max(15, Math.min(24, 21 * sc.s * 1.08)) * base;
+    const pw = Math.min(sc.bw * 0.88, 820);
     st.fontSize = fs + 'px';
     st.width = pw + 'px'; st.right = 'auto'; st.left = (sc.bx + (sc.bw - pw) / 2) + 'px';
-    st.top = 'auto'; st.bottom = (L.vh - (sc.by + sc.bh) + 12) + 'px'; st.maxHeight = (sc.bh * 0.5) + 'px';
+    st.top = 'auto'; st.bottom = Math.max(12, L.vh - (sc.by + sc.bh) + 12) + 'px'; st.maxHeight = 'none';
   }
 }
 
 /* ----------------------------------------------- текст и озвучка слов */
-let words = [], timing = [], hlIdx = -1;
+let words = [], timing = [], hlIdx = -1, textLines = [], curLineIdx = -1;
+
+function buildSubtitleLines(tx) {
+  if (!tx || !tx.tok) return [];
+  const paragraphs = [];
+  let curP = [], wIdx = 0;
+  for (const tok of tx.tok) {
+    if (tok === '\n') {
+      if (curP.length) paragraphs.push(curP);
+      curP = [];
+    } else {
+      curP.push({ tok, i: wIdx, t: tx.t ? tx.t[wIdx] : null });
+      wIdx++;
+    }
+  }
+  if (curP.length) paragraphs.push(curP);
+
+  const lines = [];
+  for (const p of paragraphs) {
+    let curLine = [], curLen = 0;
+    for (const item of p) {
+      const tok = item.tok;
+      const addLen = tok.length + (curLine.length ? 1 : 0);
+      curLine.push(item);
+      curLen += addLen;
+      const isSentEnd = /[.!?…]$/.test(tok) || tok.endsWith('...') || tok.endsWith('?!') || tok.endsWith('!?');
+      const isClauseEnd = /[,;:—–-]$/.test(tok);
+      if (isSentEnd && curLine.length >= 3) {
+        lines.push(curLine);
+        curLine = []; curLen = 0;
+      } else if ((curLen >= 45 || curLine.length >= 8) && isClauseEnd) {
+        lines.push(curLine);
+        curLine = []; curLen = 0;
+      } else if (curLen >= 65 || curLine.length >= 12) {
+        lines.push(curLine);
+        curLine = []; curLen = 0;
+      }
+    }
+    if (curLine.length) lines.push(curLine);
+  }
+
+  return lines.map((ln) => {
+    const start = ln[0].t ? ln[0].t[0] : 0;
+    const end = ln[ln.length - 1].t ? ln[ln.length - 1].t[1] : 9999;
+    return { tokens: ln, start, end };
+  });
+}
+
+function showSubtitleLine(idx) {
+  if (idx < 0 || idx >= textLines.length) return;
+  curLineIdx = idx;
+  const inner = $('textInner');
+  inner.textContent = '';
+  words = [];
+  const line = textLines[idx];
+  const frag = document.createDocumentFragment();
+  for (const item of line.tokens) {
+    const sp = document.createElement('span');
+    sp.className = 'w';
+    sp.dataset.i = item.i;
+    sp.textContent = item.tok;
+    frag.appendChild(sp);
+    frag.appendChild(document.createTextNode(' '));
+    words.push(sp);
+  }
+  inner.appendChild(frag);
+  if (hlIdx >= 0) {
+    const active = words.find((w) => +w.dataset.i === hlIdx);
+    if (active) active.classList.add('on');
+  }
+}
+
 function renderText(sc) {
   const p = $('textPanel'), inner = $('textInner');
   const tx = sc.d.text[lang];
   inner.textContent = '';
-  words = []; timing = []; hlIdx = -1;
+  words = []; timing = []; hlIdx = -1; textLines = []; curLineIdx = -1;
   if (!tx || !sc.d.tb.visible) { p.hidden = true; return; }
-  inner.style.setProperty('--hl', tx.color);
-  const frag = document.createDocumentFragment();
-  let wi = 0;
-  for (const tok of tx.tok) {
-    if (tok === '\n') { frag.appendChild(document.createElement('br')); continue; }
-    const sp = document.createElement('span');
-    sp.className = 'w'; sp.dataset.i = wi++; sp.textContent = tok;
-    frag.appendChild(sp); frag.appendChild(document.createTextNode(' '));
-    words.push(sp);
-  }
-  inner.appendChild(frag);
-  timing = tx.t;
-  p.hidden = false; p.classList.toggle('off', !S.text); p.scrollTop = 0;
+  inner.style.setProperty('--hl', tx.color || '#91bac1');
+  timing = tx.t || [];
+  textLines = buildSubtitleLines(tx);
+  p.hidden = false;
+  p.classList.toggle('off', !S.text);
+  if (textLines.length) showSubtitleLine(0);
   layoutText();
 }
+
 function clearHighlight() {
-  if (hlIdx >= 0 && words[hlIdx]) words[hlIdx].classList.remove('on');
+  if (hlIdx >= 0) {
+    for (const w of words) if (+w.dataset.i === hlIdx) w.classList.remove('on');
+  }
   hlIdx = -1;
 }
+
 function updateHighlight() {
-  if (!words.length) return;
+  if (!textLines.length) return;
   const a = Aud.narr;
   if (a.paused && !a.ended) return;
   const ct = a.currentTime;
+
+  let activeLineIdx = 0;
+  for (let i = 0; i < textLines.length; i++) {
+    const ln = textLines[i], nxt = textLines[i + 1];
+    const until = nxt ? nxt.start : ln.end + 0.35;
+    if (ct >= ln.start && ct < until) { activeLineIdx = i; break; }
+    if (ct >= until) activeLineIdx = i;
+  }
+  if (activeLineIdx !== curLineIdx) {
+    showSubtitleLine(activeLineIdx);
+  }
+
   let idx = -1;
   for (let i = 0; i < timing.length; i++) {
     const tm = timing[i];
@@ -356,17 +439,17 @@ function updateHighlight() {
     if (ct > until + 0.35) idx = -1;
   }
   if (idx === hlIdx) return;
-  if (hlIdx >= 0 && words[hlIdx]) words[hlIdx].classList.remove('on');
+  if (hlIdx >= 0) {
+    for (const w of words) if (+w.dataset.i === hlIdx) w.classList.remove('on');
+  }
   hlIdx = idx;
-  if (idx >= 0 && words[idx]) {
-    words[idx].classList.add('on');
-    const p = $('textPanel'), w = words[idx];
-    if (p.scrollHeight > p.clientHeight + 4) {
-      const top = w.offsetTop - p.clientHeight / 2 + w.offsetHeight;
-      p.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  if (idx >= 0) {
+    for (const w of words) {
+      if (+w.dataset.i === idx) w.classList.add('on');
     }
   }
 }
+
 function narrate(sc) {
   Aud.stopNarr();
   const tx = sc.d.text[lang];
@@ -504,7 +587,7 @@ function bindInput() {
   const app = $('app');
   let down = null;
   app.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.ui,#pages,#start')) { down = null; return; }
+    if (e.target.closest('.ui,#pages,#start,#textClose')) { down = null; return; }
     down = { x: e.clientX, y: e.clientY, t: performance.now(), id: e.pointerId, inText: !!e.target.closest('#textPanel') };
   });
   app.addEventListener('pointercancel', () => { down = null; });
@@ -514,8 +597,8 @@ function bindInput() {
     const d = down; down = null;
     if (busy) return;
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 900) { dx < 0 ? next() : prev(); return; }
-    if (Math.abs(dx) < 14 && Math.abs(dy) < 14 && curScene && !(d.inText && e.target.closest('.w'))) {
-      const rec = curScene.hit(e.clientX, e.clientY);   // панель текста не должна перекрывать объекты сцены
+    if (Math.abs(dx) < 14 && Math.abs(dy) < 14 && curScene && !d.inText) {
+      const rec = curScene.hit(e.clientX, e.clientY);   // клик по панели текста не срабатывает по скрытым под ней объектам сцены
       if (rec) { lastHit = performance.now(); curScene.trigger(rec); Hints.interacted(); }
     }
   });
@@ -579,6 +662,9 @@ function syncLangButtons() {
   for (const host of [$('langs'), $('startLangs')]) for (const b of host.children) b.classList.toggle('on', b.dataset.l === lang);
   document.documentElement.lang = lang.toLowerCase();
   $('startBtn').textContent = t('open');
+  if ($('textClose')) $('textClose').title = $('textClose').ariaLabel = t('closeText');
+  if ($('btnText')) $('btnText').title = $('btnText').ariaLabel = t('text');
+  if ($('btnHome')) $('btnHome').title = $('btnHome').ariaLabel = t('home');
 }
 function setLang(l) {
   if (l === lang) return;
@@ -597,6 +683,7 @@ function bindToolbar() {
   $('btnNarr').onclick = () => { S.narr = !S.narr; store.set('narr', S.narr); syncToggles(); if (S.narr) narrateForce(); else Aud.stopNarr(); };
   $('btnSfx').onclick = () => { S.sfx = !S.sfx; store.set('sfx', S.sfx); syncToggles(); Aud.applyToggles(); if (S.sfx && curScene) curScene.d.start.forEach(([, snd, lp]) => { if (snd && lp) playSound(curScene, snd, true); }); };
   $('btnText').onclick = () => { S.text = !S.text; store.set('text', S.text); syncToggles(); };
+  $('textClose').onclick = () => { S.text = false; store.set('text', false); syncToggles(); };
   $('btnPages').onclick = () => { buildPages(); $('pages').hidden = false; };
   $('pagesClose').onclick = () => { $('pages').hidden = true; };
 }
