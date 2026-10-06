@@ -49,6 +49,15 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hi
 
 /* ---- интерфейс ---- */
 .ui{z-index:30}
+#btnHomeTopLeft{position:absolute;top:calc(8px + var(--safe-t));left:calc(10px + var(--safe-l));
+  display:inline-flex;align-items:center;gap:6px;padding:6px 14px 6px 10px;height:40px;
+  border-radius:26px;background:var(--ui);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  color:#fff;text-decoration:none;font:600 13px system-ui,-apple-system,sans-serif;
+  letter-spacing:.02em;opacity:.88;transition:opacity .2s,background .2s,transform .15s;
+  border:1px solid rgba(255,255,255,.15);box-shadow:0 4px 18px rgba(0,0,0,.35)}
+#btnHomeTopLeft:hover{opacity:1;background:rgba(28,32,48,.85);transform:translateY(-1px)}
+#btnHomeTopLeft:active{transform:scale(.96)}
+#btnHomeTopLeft svg{width:20px;height:20px;fill:currentColor;flex-shrink:0}
 #topbar{position:absolute;top:calc(8px + var(--safe-t));right:calc(10px + var(--safe-r));display:flex;gap:6px;align-items:center;
   padding:5px;border-radius:26px;background:var(--ui);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   opacity:.82;transition:opacity .2s}

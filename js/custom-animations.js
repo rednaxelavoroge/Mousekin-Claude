@@ -156,16 +156,28 @@
     const enHref = subSlug ? `/en/${subSlug}` : '/en';
     const deHref = subSlug ? `/de/${subSlug}` : '/de';
 
+    const homeInfo = {
+      RU: { text: 'На главную', href: '/' },
+      EN: { text: 'To Home', href: '/en' },
+      DE: { text: 'Zur Startseite', href: '/de' }
+    }[curLang];
+
     const menus = document.querySelectorAll('.t280__menu, .t-menu__list');
     menus.forEach((menu) => {
       if (!menu.querySelector('.mk-menu-bar')) {
         const bar = document.createElement('div');
         bar.className = 'mk-menu-bar';
         bar.innerHTML = `
-          <a href="${menuInfo.href}" class="mk-menu-read-btn">
-            <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            ${menuInfo.text}
-          </a>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <a href="${homeInfo.href}" class="mk-menu-home-btn" title="${homeInfo.text}">
+              <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+              <span>${homeInfo.text}</span>
+            </a>
+            <a href="${menuInfo.href}" class="mk-menu-read-btn">
+              <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              ${menuInfo.text}
+            </a>
+          </div>
           <div class="mk-lang-switcher">
             <a href="${ruHref}" class="mk-lang-btn ${curLang === 'RU' ? 'active' : ''}">RU</a>
             <a href="${enHref}" class="mk-lang-btn ${curLang === 'EN' ? 'active' : ''}">EN</a>
@@ -173,6 +185,15 @@
           </div>
         `;
         menu.prepend(bar);
+      }
+    });
+
+    // Make Honey of Milky Way top logo clickable to return to home
+    const logos = document.querySelectorAll('.t280__logo__content');
+    logos.forEach((logo) => {
+      if (!logo.closest('a')) {
+        logo.style.cursor = 'pointer';
+        logo.onclick = () => { window.location.href = homeInfo.href; };
       }
     });
   }

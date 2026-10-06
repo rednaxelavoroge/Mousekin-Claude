@@ -664,7 +664,12 @@ function syncLangButtons() {
   $('startBtn').textContent = t('open');
   if ($('textClose')) $('textClose').title = $('textClose').ariaLabel = t('closeText');
   if ($('btnText')) $('btnText').title = $('btnText').ariaLabel = t('text');
-  if ($('btnHome')) $('btnHome').title = $('btnHome').ariaLabel = t('home');
+  const btnHome = $('btnHomeTopLeft') || $('btnHome');
+  if (btnHome) {
+    btnHome.title = btnHome.ariaLabel = t('home');
+    const txt = btnHome.querySelector('.btnHome-text');
+    if (txt) txt.textContent = t('home');
+  }
 }
 function setLang(l) {
   if (l === lang) return;
@@ -764,7 +769,7 @@ async function boot() {
     started = true;
     sb.disabled = true;
     const first = (() => { const p = store.get('page', 0); return typeof p === 'number' && p >= 0 && p < book.scenes.length ? p : 0; })();
-    ['topbar', 'navPrev', 'navNext', 'pageNo'].forEach((id) => { $(id).hidden = false; });
+    ['topbar', 'btnHomeTopLeft', 'navPrev', 'navNext', 'pageNo'].forEach((id) => { const el = $(id); if (el) el.hidden = false; });
     await goTo(first, { instant: true });
     $('start').style.transition = 'opacity .5s'; $('start').style.opacity = 0;
     setTimeout(() => { $('start').hidden = true; }, 520);

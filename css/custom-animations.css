@@ -207,6 +207,30 @@
   transform: translateY(-1px);
 }
 
+.mk-menu-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(163, 134, 6, 0.12);
+  color: #8c6a08 !important;
+  border: 1px solid rgba(163, 134, 6, 0.35);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.mk-menu-home-btn:hover {
+  background: #a38606;
+  color: #fcf6d6 !important;
+  border-color: #a38606;
+  transform: translateY(-1px);
+}
+
 .mk-lang-switcher {
   display: inline-flex;
   gap: 4px;
@@ -265,4 +289,78 @@
 #rec11695452 .typed-cursor,
 #rec12481256 .typed-cursor {
   color: #a38606 !important;
+}
+
+/* ========================================================
+   Improved Readability & Aesthetics for Menu Modal (.t280)
+   ======================================================== */
+.t280__menu__bg {
+  background-color: #faf7ed !important;
+  opacity: 0.96 !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+.t280__menu__container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.t280__menu__item {
+  color: #3d2b12 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  font-size: 21px !important;
+  line-height: 1.4 !important;
+  margin: 10px 0 !important;
+  padding: 8px 18px !important;
+  border-radius: 12px;
+  display: inline-block !important;
+  transition: all 0.2s ease !important;
+}
+
+.t280__menu__item:hover {
+  color: #925c04 !important;
+  background: rgba(163, 134, 6, 0.08) !important;
+  transform: translateY(-2px);
+}
+
+.t280__descr div {
+  color: #b83d12 !important;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.t280 .t-sociallinks__item a svg path,
+.t280 .t-sociallinks__item a svg {
+  fill: #8f6805 !important;
+  transition: transform 0.2s, fill 0.2s;
+}
+
+.t280 .t-sociallinks__item a:hover svg path {
+  fill: #b58509 !important;
+}
+
+.t280 .t-sociallinks__item a:hover svg {
+  transform: scale(1.12);
+}
+
+/* Footer full 5 social links styling */
+.t452__right_social_links_wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+.t452__right_social_links_item {
+  margin: 0 !important;
+}
+
+.t452__right_social_links_item a svg {
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.t452__right_social_links_item a:hover svg {
+  transform: scale(1.15);
+  fill: #ffd447 !important;
 }
