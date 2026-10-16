@@ -103,6 +103,8 @@ class TimeTransportApp {
     this.dragPointerOffset = { x: 0, y: 0 };
     this.hintTimer = null;
     this.rideIsFast = false;
+    const urlParams = new URLSearchParams(window.location.search);
+    this.isEmbed = urlParams.get('embed') === '1' || window.self !== window.top;
 
     // DOM Elements
     this.root = document.getElementById('game-root');
@@ -235,6 +237,9 @@ class TimeTransportApp {
       const isAssembled = progress.assembled.includes(vId);
       const card = document.createElement('div');
       card.className = `vehicle-card ${isAssembled ? 'assembled' : ''}`;
+      const ctaText = this.isEmbed
+        ? (isAssembled ? 'Собрать 🔨' : 'Начать сборку 🔨')
+        : (isAssembled ? 'Собрать заново 🔄' : 'Начать сборку 🔨');
       card.innerHTML = `
         <div class="card-status-badge">
           ${isAssembled ? '✨ Собрано' : '⚙️ Мастерская'}
@@ -244,7 +249,7 @@ class TimeTransportApp {
         </div>
         <h3 class="card-title">${v.title}</h3>
         <p class="card-desc">${v.tagline}</p>
-        <button class="card-cta">${isAssembled ? 'Собрать заново 🔄' : 'Начать сборку 🔨'}</button>
+        <button class="card-cta">${ctaText}</button>
       `;
 
       card.addEventListener('click', () => {
@@ -279,7 +284,7 @@ class TimeTransportApp {
     oldPlaced.forEach(el => el.remove());
 
     // Создание пазов-слотов на чертеже
-    this.currentVehicle.parts.forEach(part => {
+    this.currentVehicle.parts.forEach((part, idx) => {
       const slot = document.createElement('div');
       slot.className = 'part-slot';
       slot.id = `slot-${part.id}`;
@@ -287,6 +292,12 @@ class TimeTransportApp {
       slot.style.top = `${part.topPct}%`;
       slot.style.width = `${part.widthPct}%`;
       slot.style.height = `${part.heightPct}%`;
+      if (this.currentVehicleId === 'monowheel') {
+        const badge = document.createElement('span');
+        badge.className = 'slot-badge';
+        badge.textContent = String(idx + 1);
+        slot.appendChild(badge);
+      }
       this.blueprintCanvas.appendChild(slot);
     });
 
@@ -372,6 +383,28 @@ class TimeTransportApp {
       const isHit = this.checkSlotCollision(e.clientX, e.clientY, targetSlot);
 
       if (isHit) {
+        if (this.currentVehicleId === 'monowheel') {
+          const order = ['wheel', 'frame', 'pedal', 'saddle'];
+          const nextIndex = this.placedParts.size;
+          const expectedId = order[nextIndex];
+          if (part.id !== expectedId) {
+            if (shelfItem) shelfItem.classList.remove('dragging');
+            sound.playMiss();
+            const expPart = this.currentVehicle.parts.find(p => p.id === expectedId);
+            this.showCustomMousePraise('Сначала поставь деталь №' + (nextIndex + 1) + ' — ' + (expPart ? expPart.name : ''));
+            const expSlot = document.getElementById(`slot-${expectedId}`);
+            if (expSlot) {
+              expSlot.classList.add('highlight');
+              setTimeout(() => expSlot.classList.remove('highlight'), 2500);
+            }
+            if (this.dragAvatar) {
+              this.dragAvatar.remove();
+              this.dragAvatar = null;
+            }
+            this.draggedPart = null;
+            return;
+          }
+        }
         // Успешная установка
         this.placePartOnBlueprint(part);
         if (shelfItem) shelfItem.remove();
@@ -459,6 +492,16 @@ class TimeTransportApp {
       setTimeout(() => {
         this.mouseBubble.classList.remove('show');
       }, 2500);
+    }
+  }
+
+  showCustomMousePraise(phrase) {
+    if (this.mouseBubble) {
+      this.mouseBubble.textContent = phrase;
+      this.mouseBubble.classList.add('show');
+      setTimeout(() => {
+        this.mouseBubble.classList.remove('show');
+      }, 3000);
     }
   }
 
@@ -573,6 +616,15 @@ class TimeTransportApp {
         );
       }, i * 40);
     }
+
+    if (this.isEmbed) {
+      const btnTestDrive = document.getElementById('btn-test-drive');
+      const btnToGarage = document.getElementById('btn-to-garage');
+      const btnEmbedFinish = document.getElementById('btn-embed-finish');
+      if (btnTestDrive) btnTestDrive.style.display = 'none';
+      if (btnToGarage) btnToGarage.style.display = 'none';
+      if (btnEmbedFinish) btnEmbedFinish.style.display = 'block';
+    }
   }
 
   updateStageVisual(heroKey = this.selectedHero) {
@@ -649,6 +701,15 @@ class TimeTransportApp {
     if (btnToGarage) {
       btnToGarage.addEventListener('click', () => {
         this.showScreen('garage');
+      });
+    }
+
+    const btnEmbedFinish = document.getElementById('btn-embed-finish');
+    if (btnEmbedFinish) {
+      btnEmbedFinish.addEventListener('click', () => {
+        sound.stopMusic();
+        sound.stopRideTrack();
+        TransportBridge.notifyParent({ type: 'TIME_TRANSPORT_FINISHED', vehicleId: this.currentVehicleId });
       });
     }
   }

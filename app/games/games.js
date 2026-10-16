@@ -133,7 +133,7 @@
       if (!make) return closeGame('error');
       try {
         cur.inst = make({
-          stage: stage, lang: lang(), t: tr, base: BASE, assets: ASSETS, scene: geom(), sfx: sfx, el: el, print: printHTML, size: function () { return { w: stage.clientWidth, h: stage.clientHeight }; },
+          stage: stage, idx: idx, lang: lang(), t: tr, base: BASE, assets: ASSETS, scene: geom(), sfx: sfx, el: el, print: printHTML, size: function () { return { w: stage.clientWidth, h: stage.clientHeight }; },
           hud: function (text) { var h = stage.querySelector('.gm-hud') || stage.appendChild(el('div', 'gm-hud')); h.textContent = text; return h; },
           finish: function (r) { finish(g, idx, r); }
         });
@@ -168,6 +168,8 @@
   function closeGame(reason) {
     if (!ov) return;
     var g = cur && cur.g;
+    var ifr = ov.querySelector('iframe');
+    if (ifr) { try { ifr.src = 'about:blank'; ifr.remove(); } catch (err) {} }
     try { if (cur && cur.inst && cur.inst.destroy) cur.inst.destroy(); } catch (e) {}
     ov.remove(); ov = null; cur = null;
     resumeBook();
@@ -219,8 +221,27 @@
     if (!ov || !cur || cur.g.type !== 'iframe' || e.origin !== location.origin) return;
     var d = e.data; if (!d || typeof d.type !== 'string') return;
     var g = cur.g, idx = cur.idx;
-    if ((g.doneMessages || []).indexOf(d.type) >= 0) { rememberVehicle(d.vehicleId, idx); setTimeout(function () { finish(g, idx, d); }, 1600); }
-    else if ((g.closeMessages || []).indexOf(d.type) >= 0) closeGame('game');
+    if (d.type === 'TIME_TRANSPORT_ASSEMBLED') {
+      rememberVehicle(d.vehicleId, idx);
+      cur.assembledVehicle = d;
+    } else if (d.type === 'TIME_TRANSPORT_FINISHED') {
+      var ifr = ov.querySelector('iframe');
+      if (ifr) { try { ifr.src = 'about:blank'; ifr.remove(); } catch (err) {} }
+      finish(g, idx, cur.assembledVehicle || d);
+    } else if ((g.doneMessages || []).indexOf(d.type) >= 0) {
+      rememberVehicle(d.vehicleId, idx);
+      var ifr2 = ov.querySelector('iframe');
+      if (ifr2) { try { ifr2.src = 'about:blank'; ifr2.remove(); } catch (err) {} }
+      finish(g, idx, d);
+    } else if ((g.closeMessages || []).indexOf(d.type) >= 0) {
+      if (cur.assembledVehicle) {
+        var ifr3 = ov.querySelector('iframe');
+        if (ifr3) { try { ifr3.src = 'about:blank'; ifr3.remove(); } catch (err) {} }
+        finish(g, idx, cur.assembledVehicle);
+      } else {
+        closeGame('game');
+      }
+    }
   });
 
   function init() {

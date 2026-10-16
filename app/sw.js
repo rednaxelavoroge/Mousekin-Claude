@@ -1,6 +1,6 @@
 /* Service worker: оболочка в кэше при установке, медиа в кэше при первом обращении или кнопке «офлайн».
    Range-запросы (аудио) обслуживаются вручную: без этого Safari не воспроизводит звук из кэша. */
-const V = '20261016140000';
+const V = '20261016180000';
 const CORE = ["./", "index.html", "app.js", "style.css", "manifest.webmanifest", "data/book.json", "data/assets.json", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png", "data/scene_000.json", "data/scene_001.json", "data/scene_002.json", "data/scene_003.json", "data/scene_004.json", "data/scene_005.json", "data/scene_006.json", "data/scene_007.json", "data/scene_008.json", "data/scene_009.json", "data/scene_010.json", "data/scene_011.json", "data/scene_012.json", "data/scene_013.json", "data/scene_014.json", "data/scene_015.json", "data/scene_016.json", "data/scene_017.json", "data/scene_018.json", "data/scene_019.json", "data/scene_020.json", "data/scene_021.json", "img/Cover_4B38A2B5-F5D2-4DB4-BD47-54C063EE51AB_iBooks.webp", "ui/hint.webp"];
 const SHELL = 'shell-' + V;
 const MEDIA = 'media-' + V;

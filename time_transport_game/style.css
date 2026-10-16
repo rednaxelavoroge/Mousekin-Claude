@@ -445,6 +445,22 @@ html, body {
   display: block;
 }
 
+.slot-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #1e1b4b;
+  font: 800 15px/28px system-ui, sans-serif;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  pointer-events: none;
+  z-index: 4;
+}
+
 /* Установленная на чертёж деталь */
 .part-placed {
   position: absolute;

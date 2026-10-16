@@ -14,7 +14,7 @@
     "DE": "Finde die Maus"
    },
    "cards": {
-    "17": 7
+    "18": 7
    },
    "task": {
     "RU": "А теперь спрячь свою игрушку в комнате и позови маму искать. Мышонок любит прятки!",
@@ -25,11 +25,13 @@
   {
    "id": "transport",
    "enabled": true,
+   "free": true,
    "icon": "🚲",
    "type": "iframe",
-   "src": "../../time_transport_game/index.html?embed=1",
+   "src": "../../time_transport_game/?embed=1",
    "doneMessages": [
-    "TIME_TRANSPORT_ASSEMBLED"
+    "TIME_TRANSPORT_ASSEMBLED",
+    "TIME_TRANSPORT_FINISHED"
    ],
    "closeMessages": [
     "TIME_TRANSPORT_CLOSED"
@@ -39,8 +41,13 @@
     "EN": "TIME Transport",
     "DE": "ZEIT-Fahrzeuge"
    },
+   "sub": {
+    "RU": "Мастерская из 4 машин времени",
+    "EN": "Workshop of 4 time vehicles",
+    "DE": "Werkstatt mit 4 Zeitfahrzeugen"
+   },
    "cards": {
-    "6": 3
+    "7": 3
    },
    "task": {
     "RU": "А теперь построй свой времясипед из кубиков, стульев или коробок. Покажи маме — она скажет, что у него вместо руля.",
@@ -60,7 +67,8 @@
     "DE": "Puzzle legen"
    },
    "cards": {
-    "10": 4,
+    "5": 1,
+    "11": 4,
     "14": 5
    },
    "task": {
@@ -81,7 +89,7 @@
     "DE": "Finde den Gegenstand"
    },
    "cards": {
-    "15": 6
+    "16": 6
    },
    "task": {
     "RU": "А теперь найди в своей комнате пять круглых предметов. Это будут твои часы. Сколько их?",
@@ -101,7 +109,7 @@
     "DE": "Zähle die Uhren"
    },
    "cards": {
-    "5": 2
+    "6": 2
    },
    "task": {
     "RU": "А теперь посчитай все часы у вас дома. И окна. И деревья во дворе. Что больше?",
@@ -121,7 +129,7 @@
     "DE": "Mach der Maus nach"
    },
    "cards": {
-    "18": 8
+    "19": 8
    },
    "task": {
     "RU": "А теперь ты покажи маме три движения — и она повторит. Потом наоборот.",
@@ -141,7 +149,7 @@
     "DE": "Male die Maus an"
    },
    "cards": {
-    "20": 10
+    "21": 10
    },
    "task": {
     "RU": "Распечатай контур и раскрась настоящими карандашами. Повесь на стену.",
@@ -167,7 +175,7 @@
     "DE": "Fünf Fragen – und deine Uhr"
    },
    "cards": {
-    "19": 9
+    "20": 9
    },
    "task": {
     "RU": "Сделай такие часы руками — из бумаги, картона, пластилина или коробки. Ты сам решаешь, как они идут. Повесь на стену в детской.",
@@ -273,6 +281,15 @@
      "There are no 'play again' or 'next' buttons. The Mouse gets tired on purpose.",
      "Once a week you can add one figure to 'My Family's Clock City'.",
      "What matters is conversation and hands, not the screen. The screen shows the idea, real life makes it happen."
+    ],
+    "DE": [
+     "Lesen Sie jeweils ein Kapitel. Lassen Sie sich Zeit.",
+     "Stellen Sie nicht alle Fragen auf einmal, sondern eine – die zur Stimmung des Kindes passt.",
+     "Machen Sie daraus keinen Test. Wenn das Kind nicht antworten möchte, lesen Sie einfach und machen Sie die reale Aufgabe von der Karte.",
+     "Nach dem Spiel soll das Kind die App mit einer echten Aufgabe verlassen. Wenn es beginnt, mit Bausteinen zu bauen, hat alles geklappt.",
+     "Es gibt keine 'Nochmal spielen'-Knöpfe. Die Maus wird müde – das ist Absicht.",
+     "Einmal pro Woche können Sie eine Figur zur 'Uhrenstadt meiner Familie' hinzufügen.",
+     "Das Wichtigste ist nicht der Bildschirm, sondern das Gespräch und die Hände. Der Bildschirm zeigt die Idee, die Wirklichkeit setzt sie um."
     ]
    }
   }
