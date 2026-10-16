@@ -54,6 +54,145 @@
     setTimeout(function () { try { window.print(); } catch (e) {} setTimeout(clean, 4000); }, 50);
   }
 
+  /* ---------- карточки для печати и просмотра ---------- */
+  var CARDS_INFO = {
+    1: {
+      RU: { title: 'Пробуждение и смена времён', q: 'Бывает, что время тянется, а бывает, что летит. Когда у тебя так было?', t: 'Закрой глаза и скажи «стоп», когда, по-твоему, прошла минута. Проверь по часам.' },
+      EN: { title: 'Awakening and the Changing of Times', q: 'Does time sometimes drag, and sometimes fly? When did that happen to you?', t: 'Close your eyes and say "stop" when you think a minute has passed. Check against a clock.' },
+      DE: { title: 'Erwachen und der Zeitenwechsel', q: 'Zieht sich Zeit manchmal hin und verfliegt ein andermal im Nu? Wann war das bei dir so?', t: 'Schließe die Augen und sage „Stopp“, wenn deiner Meinung nach eine Minute vergangen ist. Prüfe es mit der Uhr.' }
+    },
+    2: {
+      RU: { title: 'Мир Бегущего Времени', q: 'Почему у всех часы разные?', t: 'Посчитай, сколько разных часов есть у вас дома. Нарисуй два самых непохожих.' },
+      EN: { title: 'The World of Running Time', q: 'Why does everyone have a different clock?', t: 'Count how many different clocks you have at home. Draw the two most different ones.' },
+      DE: { title: 'Die Welt der Laufenden Zeit', q: 'Warum hat jeder eine andere Uhr?', t: 'Zähle, wie viele verschiedene Uhren es bei euch zu Hause gibt. Zeichne die zwei unterschiedlichsten.' }
+    },
+    3: {
+      RU: { title: 'Времясипед', q: 'Если бы твой транспорт умел говорить, что бы он сказал?', t: 'Построй свой транспорт из кубиков, стульев или коробок. Покажи маме.' },
+      EN: { title: 'The Timecycle', q: 'If your vehicle could talk, what would it say?', t: 'Build your own vehicle from blocks, chairs or boxes. Show Mum.' },
+      DE: { title: 'Das Zeitrad', q: 'Wenn dein Fahrzeug sprechen könnte, was würde es sagen?', t: 'Baue dein eigenes Fahrzeug aus Bausteinen, Stühlen oder Kisten. Zeige es Mama.' }
+    },
+    4: {
+      RU: { title: 'Улитка и Перфектность', q: 'Что в тебе не идеально, но тебе нравится?', t: 'Нарисуй что-нибудь намеренно кривое и подпиши: «Мой перфектный».' },
+      EN: { title: 'The Snail and Perfectness', q: 'What about you isn\'t perfect, but you love it anyway?', t: 'Draw something intentionally crooked and write: "My perfect imperfection".' },
+      DE: { title: 'Die Schnecke und die Perfektion', q: 'Was an dir ist nicht perfekt, aber du magst es trotzdem?', t: 'Zeichne etwas absichtlich Krummes und schreibe darunter: „Mein Perfektes“.' }
+    },
+    5: {
+      RU: { title: 'Йозеф-архивариус и Пыль Времён', q: 'Что ты помнишь из прошлого лета?', t: 'Попроси кого-нибудь из семьи рассказать историю из их детства.' },
+      EN: { title: 'Josef the Archivist and the Dust of Times', q: 'What do you remember from last summer?', t: 'Ask someone in your family to tell a story from their childhood.' },
+      DE: { title: 'Josef der Archivar und der Staub der Zeiten', q: 'Woran erinnerst du dich aus dem letzten Sommer?', t: 'Bitte jemanden aus deiner Familie, eine Geschichte aus seiner Kindheit zu erzählen.' }
+    },
+    6: {
+      RU: { title: 'Кот Мартин', q: 'Где ты любишь спать днём?', t: 'Сегодня уйди из разговора «по-английски»: тихо, без лишних слов. Потом расскажи, как это было.' },
+      EN: { title: 'Martin the Cat', q: 'Where do you like to nap during the day?', t: 'Today, slip away from a conversation like a cat: quietly, without extra words. Then tell how it felt.' },
+      DE: { title: 'Kater Martin', q: 'Wo machst du tagsüber am liebsten ein Nickerchen?', t: 'Verlasse heute ein Gespräch auf leisen Pfoten: still, ohne überflüssige Worte. Erzähle danach, wie es war.' }
+    },
+    7: {
+      RU: { title: 'Часы по дороге', q: 'На какие часы из книги ты похож?', t: 'Найди дома часы или что-то круглое, похожее на твой характер. Объясни маме почему.' },
+      EN: { title: 'Clocks Along the Way', q: 'Which clock from the book are you most like?', t: 'Find a clock or round object at home that matches your personality. Explain to Mum why.' },
+      DE: { title: 'Uhren am Wegesrand', q: 'Welcher Uhr aus dem Buch ähnelst du am meisten?', t: 'Finde zu Hause eine Uhr oder einen runden Gegenstand, der zu deinem Charakter passt. Erkläre Mama warum.' }
+    },
+    8: {
+      RU: { title: 'Озарение Мышонка', q: 'Что бы ты хотел завести против течения?', t: 'Выбери одно дело, которое всегда откладываешь, и сделай его сегодня первым.' },
+      EN: { title: 'The Mouse\'s Epiphany', q: 'What would you like to wind against the stream?', t: 'Pick one task you always put off, and do it first today.' },
+      DE: { title: 'Der Geistesblitz der kleinen Maus', q: 'Was würdest du gerne gegen den Strom aufziehen?', t: 'Wähle eine Sache, die du immer aufschiebst, und erledige sie heute als Erstes.' }
+    },
+    9: {
+      RU: { title: 'Главное открытие', q: 'Кто настраивает твоё время?', t: 'Сделай свои часы руками: из бумаги, картона или коробки. Повесь в детской.' },
+      EN: { title: 'The Grand Discovery', q: 'Who sets your time?', t: 'Craft your own clock with your hands: from paper, cardboard or a box. Hang it in your room.' },
+      DE: { title: 'Die große Entdeckung', q: 'Wer stellt deine Zeit ein?', t: 'Bastle deine eigene Uhr mit deinen Händen: aus Papier, Pappe oder einem Karton. Hänge sie in deinem Zimmer auf.' }
+    },
+    10: {
+      RU: { title: 'Возвращение домой', q: 'Что в тебе изменилось, пока ты читал книгу?', t: 'Нарисуй себя «до» и «после» книги. Покажи маме и попроси угадать, где какой рисунок.' },
+      EN: { title: 'Returning Home', q: 'What changed in you while reading the book?', t: 'Draw yourself "before" and "after" the book. Show Mum and ask her to guess which is which.' },
+      DE: { title: 'Heimkehr', q: 'Was hat sich in dir verändert, während du das Buch gelesen hast?', t: 'Zeichne dich „vor“ und „nach“ dem Buch. Zeige es Mama und bitte sie zu erraten, welches Bild welches ist.' }
+    },
+    11: {
+      RU: { title: 'Город часов моей семьи', q: 'Кто в твоём городе часов самый важный?', t: 'Нарисуй часы для одного человека из семьи и дай им имя и историю.' },
+      EN: { title: 'My Family\'s Clock City', q: 'Who is the most important in your clock city?', t: 'Draw a clock for one person in your family and give it a name and a story.' },
+      DE: { title: 'Die Uhrenstadt meiner Familie', q: 'Wer ist in deiner Uhrenstadt der Wichtigste?', t: 'Zeichne eine Uhr für eine Person aus deiner Familie und gib ihr einen Namen und eine Geschichte.' }
+    }
+  };
+
+  function printCard(n, L, item) {
+    var qLabel = L === 'RU' ? 'Вопрос' : (L === 'DE' ? 'Frage' : 'Question');
+    var tLabel = L === 'RU' ? 'Дело' : (L === 'DE' ? 'Aufgabe' : 'Action');
+    var drawLabel = L === 'RU' ? 'Место для твоего рисунка на карточке' : (L === 'DE' ? 'Platz für deine Zeichnung' : 'Place for your drawing');
+    var html = '<div style="max-width:130mm;margin:20mm auto;padding:10mm;border:2px dashed #ee6a3c;border-radius:6mm;font-family:system-ui,-apple-system,sans-serif;color:#2a2320;background:#fff;text-align:left;box-sizing:border-box;">' +
+      '<div style="font-weight:800;color:#ee6a3c;font-size:15pt;margin-bottom:3mm;">№ ' + n + '</div>' +
+      '<h2 style="margin:0 0 5mm;font-size:18pt;line-height:1.2;color:#1e1b4b;">' + item.title + '</h2>' +
+      (item.q ? '<p style="margin:0 0 4mm;font-size:12pt;line-height:1.45;"><b>' + qLabel + ':</b> ' + item.q + '</p>' : '') +
+      (item.t ? '<p style="margin:0 0 5mm;font-size:12pt;line-height:1.45;"><b>' + tLabel + ':</b> ' + item.t + '</p>' : '') +
+      '<div style="height:70mm;border:1.5px dashed #ccc;border-radius:4mm;display:flex;align-items:center;justify-content:center;color:#999;font-size:11pt;margin-top:6mm;">' + drawLabel + '</div>' +
+      '</div>';
+    printHTML(html);
+  }
+
+  function showCardModal(n, L) {
+    if (!ov) return;
+    var info = CARDS_INFO[n] || {};
+    var item = info[L] || info.RU || { title: 'Карточка № ' + n, q: '', t: '' };
+    var qLabel = L === 'RU' ? 'Вопрос' : (L === 'DE' ? 'Frage' : 'Question');
+    var tLabel = L === 'RU' ? 'Дело' : (L === 'DE' ? 'Aufgabe' : 'Action');
+    var drawLabel = L === 'RU' ? 'Место для твоего рисунка на карточке' : (L === 'DE' ? 'Platz für deine Zeichnung' : 'Place for your drawing');
+    var printLabel = L === 'RU' ? '🖨️ Распечатать эту карточку' : (L === 'DE' ? '🖨️ Diese Karte drucken' : '🖨️ Print this card');
+    var allCardsLabel = L === 'RU' ? '📄 Все 11 карточек для печати' : (L === 'DE' ? '📄 Alle 11 Karten drucken' : '📄 All 11 printable cards');
+    var closeLabel = L === 'RU' ? '✕ Закрыть карточку' : (L === 'DE' ? '✕ Karte schließen' : '✕ Close card');
+
+    var modalOv = el('div', 'gm-card-modal-ov');
+    modalOv.addEventListener('click', function (e) {
+      if (e.target === modalOv) modalOv.remove();
+    });
+
+    var box = el('div', 'gm-card-preview');
+    box.appendChild(el('div', 'cp-num', '№ ' + n));
+    box.appendChild(el('h3', '', item.title));
+
+    if (item.q) {
+      var pQ = el('p', '');
+      var bQ = el('b', '', qLabel + ': ');
+      pQ.appendChild(bQ);
+      pQ.appendChild(document.createTextNode(item.q));
+      box.appendChild(pQ);
+    }
+
+    if (item.t) {
+      var pT = el('p', '');
+      var bT = el('b', '', tLabel + ': ');
+      pT.appendChild(bT);
+      pT.appendChild(document.createTextNode(item.t));
+      box.appendChild(pT);
+    }
+
+    box.appendChild(el('div', 'cp-draw', drawLabel));
+
+    var btns = el('div', 'cp-btns');
+
+    var bPrint = el('button', 'cp-btn-print', printLabel);
+    bPrint.type = 'button';
+    bPrint.addEventListener('click', function () {
+      printCard(n, L, item);
+    });
+    btns.appendChild(bPrint);
+
+    var bAll = el('button', 'cp-btn-all', allCardsLabel);
+    bAll.type = 'button';
+    bAll.addEventListener('click', function () {
+      window.open(new URL('cards.html#card-' + n, BASE).href, '_blank');
+    });
+    btns.appendChild(bAll);
+
+    var bClose = el('button', 'cp-btn-close', closeLabel);
+    bClose.type = 'button';
+    bClose.addEventListener('click', function () {
+      modalOv.remove();
+    });
+    btns.appendChild(bClose);
+
+    box.appendChild(btns);
+    modalOv.appendChild(box);
+    ov.appendChild(modalOv);
+  }
+
   /* ---------- гараж: собранный транспорт и часы на «стене» — видны в следующих сценах ---------- */
   var VEH_FILE = { scooter: 'самокат_full.webp', monowheel: 'моноколесо_full.webp', bike: 'вел_full.webp', moped: 'мопед_full.webp' };
   var GKEY = 'mousekin_garage_v1';
@@ -106,6 +245,7 @@
   /* ---------- оверлей ---------- */
   function mountOverlay(cls) {
     removeOffer(); pauseBook();
+    document.body.classList.add('in-game');
     var gg = $('gmGarage'); if (gg) gg.remove();
     ov = el('div', 'gm-ov' + (cls ? ' ' + cls : ''));
     ['pointerdown', 'pointerup', 'pointercancel', 'pointermove', 'click', 'wheel'].forEach(function (ev) {
@@ -149,24 +289,57 @@
     if (!ov || !cur || cur.done) return;
     cur.done = true; if (idx >= 0) played[g.id + ':' + idx] = 1;
     emit('game-done', { id: g.id, scene: idx, result: result && !result.print ? result : null });
+
+    // Скрываем HUD и крестик закрытия игры, чтобы не конфликтовали с финальной карточкой
+    if (cur.stage) {
+      var lingeringHud = cur.stage.querySelector('.gm-hud');
+      if (lingeringHud) lingeringHud.style.display = 'none';
+    }
+    var closeBtn = ov.querySelector('.gm-x');
+    if (closeBtn) closeBtn.style.display = 'none';
+
+    var L = lang();
     var ui = CFG.ui, fin = el('div', 'gm-fin'), card = el('div', 'gm-card');
     var img = el('img'); img.src = ASSETS + 'img/Szene_10__MouseFace.webp'; img.alt = ''; card.appendChild(img);
     card.appendChild(el('p', 'says', tr(ui.mouseSays)));
     card.appendChild(el('p', 'task', tr(g.task)));
+
     var n = g.cards && g.cards[String(idx)];
-    if (n) card.appendChild(el('div', 'num', tr(ui.card) + ' ' + n));
+    if (n) {
+      var cardBtn = el('button', 'num card-btn');
+      cardBtn.type = 'button';
+      var cardTxt = L === 'RU' ? 'Получить карточку № ' : (L === 'DE' ? 'Karte ansehen № ' : 'Get card № ');
+      cardBtn.textContent = '📄 ' + cardTxt + n;
+      cardBtn.title = L === 'RU' ? 'Открыть и распечатать карточку № ' + n : (L === 'DE' ? 'Karte № ' + n + ' ansehen und drucken' : 'View and print card № ' + n);
+      cardBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        showCardModal(n, L);
+      });
+      card.appendChild(cardBtn);
+    }
+
     if (result && result.print) {
       var pb = el('button', 'alt', tr(result.print.label) || tr(ui.print));
-      pb.addEventListener('click', function () { printHTML(result.print.html); });
+      pb.type = 'button';
+      pb.addEventListener('click', function (e) {
+        e.stopPropagation();
+        printHTML(result.print.html);
+      });
       card.appendChild(pb);
     }
     card.appendChild(el('p', 'tired', tr(ui.tired)));
-    var b = el('button', '', tr(ui.close)); b.addEventListener('click', function () { closeGame('done'); });
+    var b = el('button', 'gm-close-btn', tr(ui.close));
+    b.type = 'button';
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      closeGame('done');
+    });
     card.appendChild(b); fin.appendChild(card); ov.appendChild(fin);
   }
 
   function closeGame(reason) {
     if (!ov) return;
+    document.body.classList.remove('in-game');
     var g = cur && cur.g;
     var ifr = ov.querySelector('iframe');
     if (ifr) { try { ifr.src = 'about:blank'; ifr.remove(); } catch (err) {} }

@@ -78,9 +78,35 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hi
 #offlineBadge{position:absolute;right:2px;bottom:2px;font:700 10px/1 system-ui;background:var(--accent);color:#14161f;
   border-radius:8px;padding:2px 4px;display:none}
 #offlineBadge.show{display:block}
-#btnOffline.done svg{stroke:var(--accent);fill:none}
+#btnOffline.done svg{fill:var(--accent);stroke:none}
 .nav{position:absolute;top:50%;margin-top:-26px;width:52px;height:52px;background:var(--ui);backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);opacity:.7}
+
+/* ---- скрытие навбара в мини-играх и мобильная адаптивность ---- */
+body.in-game #topbar,
+body.in-game #btnHomeTopLeft,
+body.in-game .nav,
+body.in-game #pageNo,
+body.in-game .gm-offer,
+body.in-game #gmGarage{display:none!important}
+
+@media (max-width:640px){
+  #btnHomeTopLeft{padding:0;width:36px;height:36px;border-radius:50%;justify-content:center;
+    left:calc(6px + var(--safe-l));top:calc(6px + var(--safe-t))}
+  #btnHomeTopLeft .btnHome-text{display:none}
+  #btnHomeTopLeft svg{width:18px;height:18px}
+  #topbar{top:calc(6px + var(--safe-t));right:calc(6px + var(--safe-r));padding:3px 5px;gap:3px;border-radius:20px}
+  #topbar button{width:32px;height:32px}
+  #topbar svg{width:19px;height:19px}
+  #btnGames{font-size:16px!important}
+  #langs button{min-width:25px;height:26px;padding:0 4px;font-size:11px;border-radius:13px}
+}
+@media (max-width:390px){
+  #topbar{gap:2px;padding:2px 4px}
+  #topbar button{width:28px;height:28px}
+  #topbar svg{width:17px;height:17px}
+  #langs button{min-width:22px;height:24px;padding:0 2px;font-size:10px}
+}
 #navPrev{left:calc(8px + var(--safe-l))}#navNext{right:calc(8px + var(--safe-r))}
 .nav:disabled{opacity:.18}
 #pageNo{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(6px + var(--safe-b));font:600 12px system-ui;

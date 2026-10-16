@@ -94,8 +94,8 @@
       [].forEach.call(st.querySelectorAll('.gm-items,.gm-opts'), function (n) { n.remove(); });
 
       if (round >= selectedClocks.length) {
-        ctx.sfx.ok();
-        return ctx.finish({ rounds: selectedClocks.length });
+        ctx.finish({ rounds: selectedClocks.length });
+        return;
       }
 
       var current = selectedClocks[round];
@@ -103,7 +103,7 @@
       ctx.hud(formatPrompt(current.name));
 
       var items = ctx.el('div', 'gm-items');
-      items.style.top = (H * 0.2) + 'px';
+      items.style.top = Math.max(124, H * 0.2) + 'px';
 
       for (var i = 0; i < k; i++) {
         var im = ctx.el('img');

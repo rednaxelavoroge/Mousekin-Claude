@@ -12,13 +12,16 @@ const store = {
 const I18N = {
   RU: { open: 'Открыть книгу', ios: 'Чтобы установить на iPhone: Поделиться → На экран «Домой»', tap: 'Нажмите, чтобы включить звук',
         dl: 'Скачиваю для офлайна', dlDone: 'Готово: книга работает без интернета', dlFail: 'Не удалось скачать часть файлов', page: 'Страницы',
-        closeText: 'Закрыть субтитры', text: 'Субтитры', home: 'На сайт' },
+        closeText: 'Закрыть субтитры', text: 'Субтитры', home: 'На сайт',
+        offline: 'Скачать для офлайна', install: 'Установить приложение' },
   EN: { open: 'Open the book', ios: 'To install on iPhone: Share → Add to Home Screen', tap: 'Tap to turn on sound',
         dl: 'Downloading for offline', dlDone: 'Done: the book works offline', dlFail: 'Some files failed to download', page: 'Pages',
-        closeText: 'Hide subtitles', text: 'Subtitles', home: 'To website' },
+        closeText: 'Hide subtitles', text: 'Subtitles', home: 'To website',
+        offline: 'Download for offline', install: 'Install app' },
   DE: { open: 'Buch öffnen', ios: 'Installation auf dem iPhone: Teilen → Zum Home-Bildschirm', tap: 'Tippen, um den Ton einzuschalten',
         dl: 'Lade für Offline herunter', dlDone: 'Fertig: Das Buch funktioniert offline', dlFail: 'Einige Dateien konnten nicht geladen werden', page: 'Seiten',
-        closeText: 'Untertitel ausblenden', text: 'Untertitel', home: 'Zur Website' },
+        closeText: 'Untertitel ausblenden', text: 'Untertitel', home: 'Zur Website',
+        offline: 'Für Offline herunterladen', install: 'App installieren' },
 };
 
 let book = null, lang = 'RU', cur = -1, busy = false, tickMs = 50, curScene = null, started = false;
@@ -664,6 +667,8 @@ function syncLangButtons() {
   $('startBtn').textContent = t('open');
   if ($('textClose')) $('textClose').title = $('textClose').ariaLabel = t('closeText');
   if ($('btnText')) $('btnText').title = $('btnText').ariaLabel = t('text');
+  if ($('btnOffline')) $('btnOffline').title = $('btnOffline').ariaLabel = t('offline');
+  if ($('btnInstall')) $('btnInstall').title = $('btnInstall').ariaLabel = t('install');
   const btnHome = $('btnHomeTopLeft') || $('btnHome');
   if (btnHome) {
     btnHome.title = btnHome.ariaLabel = t('home');
