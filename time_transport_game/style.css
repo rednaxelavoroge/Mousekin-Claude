@@ -1,0 +1,1102 @@
+/* ==========================================================================
+   ИГРА «ВРЕМЯ ТРАНСПОРТ» — СТИЛИ И АНИМАЦИИ
+   Мир сказки «Мышонок в Городе Часов» Игоря Африкяна
+   ========================================================================== */
+
+:root {
+  --bg-dark: #0f1422;
+  --bg-deep: #161b2e;
+  --gold-primary: #f59e0b;
+  --gold-light: #fef08a;
+  --gold-glow: rgba(245, 158, 11, 0.45);
+  --brass-dark: #78350f;
+  --brass-mid: #b45309;
+  --blueprint-bg: rgba(15, 23, 42, 0.88);
+  --blueprint-line: rgba(96, 165, 250, 0.15);
+  --parchment: #fdf6e2;
+  --parchment-border: #e2c992;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --card-border: rgba(245, 158, 11, 0.25);
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  font-family: var(--font-family);
+  color: var(--text-main);
+}
+
+/* Основной контейнер игры */
+#game-root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #1e243d 0%, #0c101d 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Фоновые декорации: звёздная пыль и силуэты башен */
+.ambient-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/backgrounds/clocktown_pano.webp');
+  background-size: cover;
+  background-position: center bottom;
+  opacity: 0.28;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Верхняя панель управления (HUD) */
+.game-header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, rgba(15, 20, 34, 0.95) 0%, rgba(15, 20, 34, 0.4) 100%);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 0 10px var(--gold-glow);
+  object-fit: cover;
+}
+
+.brand-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid var(--card-border);
+  color: var(--gold-light);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 6px 12px var(--gold-glow);
+  background: rgba(45, 58, 85, 0.95);
+}
+
+.icon-btn:active {
+  transform: translateY(1px);
+}
+
+/* Экраны (Сцены) */
+.screen {
+  flex: 1;
+  position: relative;
+  z-index: 10;
+  display: none !important;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.screen.active {
+  display: flex !important;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   1. ГЛАВНОЕ МЕНЮ / ВЫБОР ТРАНСПОРТА
+   ========================================================================== */
+#menu-screen {
+  padding: 16px 24px;
+  overflow-y: auto;
+  align-items: center;
+}
+
+.menu-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 24px;
+  background: rgba(22, 27, 46, 0.85);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 16px 24px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.mouse-hero-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--gold-primary);
+  box-shadow: 0 0 15px var(--gold-glow);
+  object-fit: cover;
+  flex-shrink: 0;
+  animation: floatSoft 3s ease-in-out infinite;
+}
+
+.mouse-speech {
+  position: relative;
+  background: var(--parchment);
+  color: #3b280c;
+  padding: 12px 18px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  border: 2px solid var(--parchment-border);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.mouse-speech::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 12px 8px 0;
+  border-style: solid;
+  border-color: transparent var(--parchment-border) transparent transparent;
+}
+
+.vehicles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.vehicle-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.vehicle-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 12px 24px var(--gold-glow);
+}
+
+.vehicle-card.assembled {
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.card-status-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.vehicle-card.assembled .card-status-badge {
+  background: rgba(22, 101, 52, 0.9);
+  border-color: #4ade80;
+  color: #dcfce7;
+}
+
+.card-img-wrap {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.card-img-wrap img {
+  max-width: 85%;
+  max-height: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5));
+  transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover .card-img-wrap img {
+  transform: scale(1.06);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 4px;
+}
+
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.35;
+  margin-bottom: 14px;
+  min-height: 34px;
+}
+
+.card-cta {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--brass-mid) 100%);
+  color: #1a0f00;
+  font-weight: 700;
+  font-size: 0.92rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+}
+
+.card-cta:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 6px 15px rgba(245, 158, 11, 0.5);
+}
+
+/* ==========================================================================
+   2. МАСТЕРСКАЯ СБОРКИ (ВЕРСТАК И ДЕТАЛИ)
+   ========================================================================== */
+#workshop-screen {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.workshop-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background: rgba(22, 27, 46, 0.7);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.assembly-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.assembly-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+.assembly-progress-badge {
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  padding: 3px 10px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.workshop-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Главная рабочая зона */
+.workshop-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .workshop-main {
+    flex-direction: row;
+  }
+}
+
+/* Чертёжный стол / Blueprint Board */
+.blueprint-stage {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #152238 0%, #0d1524 100%);
+  background-image: 
+    linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* Контейнер чертежа с сохранением пропорций */
+.blueprint-canvas {
+  position: relative;
+  width: 90%;
+  max-width: min(85vw, 760px);
+  max-height: min(65vh, 520px);
+  background: rgba(16, 24, 40, 0.6);
+  border: 2px dashed rgba(96, 165, 250, 0.35);
+  border-radius: 16px;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.4);
+  overflow: visible;
+}
+
+/* Фоновый силуэт (Ghost) */
+.blueprint-ghost {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  opacity: 0.22;
+  filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.3));
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Зоны-пазы деталей на чертеже */
+.part-slot {
+  position: absolute;
+  pointer-events: auto;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.part-slot.highlight {
+  animation: goldPulse 1.2s infinite alternate;
+  box-shadow: 0 0 20px var(--gold-primary), inset 0 0 15px rgba(245, 158, 11, 0.4);
+  border: 2px solid var(--gold-light);
+}
+
+.part-slot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+}
+
+/* Установленная на чертёж деталь */
+.part-placed {
+  position: absolute;
+  pointer-events: none;
+  animation: placeSpring 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.part-placed img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+
+/* Полка деталей (Tray / Shelf) */
+.parts-shelf {
+  position: relative;
+  background: rgba(15, 20, 32, 0.95);
+  border-top: 2px solid rgba(245, 158, 11, 0.25);
+  backdrop-filter: blur(12px);
+  padding: 12px 16px;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 130px;
+  z-index: 25;
+}
+
+@media (min-width: 768px) {
+  .parts-shelf {
+    width: 240px;
+    border-top: none;
+    border-left: 2px solid rgba(245, 158, 11, 0.25);
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    justify-content: flex-start;
+  }
+}
+
+.shelf-title {
+  display: none;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .shelf-title {
+    display: block;
+  }
+}
+
+/* Карточка детали на полке */
+.shelf-item {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 2px solid rgba(245, 158, 11, 0.3);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  cursor: grab;
+  touch-action: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.shelf-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 6px 14px var(--gold-glow);
+}
+
+.shelf-item:active {
+  cursor: grabbing;
+}
+
+.shelf-item.dragging {
+  opacity: 0.25;
+}
+
+.shelf-item img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+}
+
+.shelf-item-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin-top: 2px;
+}
+
+/* Перетаскиваемый клон (Floating Drag Avatar) */
+.drag-avatar {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  transform: translate(-50%, -50%) scale(1.08);
+  filter: drop-shadow(0 14px 20px rgba(0,0,0,0.7));
+  transition: transform 0.05s ease;
+}
+
+.drag-avatar img {
+  display: block;
+  max-width: 180px;
+  max-height: 180px;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   3. ЭКРАН ОЖИВЛЕНИЯ ТРАНСПОРТА (CELEBRATION)
+   ========================================================================== */
+#celebrate-screen {
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 40%, rgba(30, 41, 59, 0.95) 0%, rgba(10, 15, 28, 0.98) 100%);
+}
+
+.celebrate-modal {
+  max-width: 760px;
+  width: 100%;
+  background: rgba(22, 27, 46, 0.95);
+  border: 2px solid var(--gold-primary);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px var(--gold-glow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.celebrate-stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 270px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+}
+
+/* Композитный контейнер: Транспорт + Герой */
+.composite-stage {
+  position: relative;
+  width: auto;
+  height: 175px;
+  max-width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: vehicleBob 2.2s ease-in-out infinite alternate;
+}
+
+.composite-stage .revived-vehicle {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+}
+
+.composite-stage .rider-sprite {
+  position: absolute;
+  pointer-events: none;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+  animation: riderBounce 0.6s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+.composite-stage .rider-accessory {
+  position: absolute;
+  pointer-events: none;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  animation: riderBounce 0.6s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+.celebrate-dialogue {
+  width: 100%;
+  background: var(--parchment);
+  border: 2px solid var(--parchment-border);
+  border-radius: 16px;
+  padding: 16px;
+  color: #3b280c;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.char-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.char-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--brass-mid);
+  object-fit: cover;
+}
+
+.char-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #78350f;
+}
+
+.char-quote {
+  font-style: italic;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.char-story {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #475569;
+}
+
+.cameo-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.cameo-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid var(--card-border);
+  color: var(--gold-light);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cameo-tab-btn.active {
+  background: var(--gold-primary);
+  color: #1a0f00;
+  font-weight: 700;
+  border-color: var(--gold-light);
+}
+
+.cameo-tab-btn img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.celebrate-btn-row {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+}
+
+.primary-btn {
+  flex: 1;
+  padding: 12px;
+  background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+  color: #1e1302;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.primary-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  flex: 1;
+  padding: 12px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--card-border);
+  color: var(--gold-light);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: var(--gold-primary);
+}
+
+/* ==========================================================================
+   4. ТЕСТ-ДРАЙВ ПО ГОРОДУ ЧАСОВ
+   ========================================================================== */
+#ride-screen {
+  background: #090e1a;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ride-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Бегущий панорамный фон */
+.ride-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-image: url('assets/backgrounds/clocktown_pano.webp');
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+  animation: moveTrack 14s linear infinite;
+}
+
+.ride-track.fast {
+  animation-duration: 6s;
+}
+
+/* Дорога / Мостовая Города Часов */
+.cobblestone-road {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border-top: 2px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Едущий транспорт с выбранным героем */
+.ride-vehicle-actor {
+  position: absolute;
+  left: 32%;
+  bottom: 45px;
+  width: 340px;
+  height: 250px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: rideBumpy 0.45s ease-in-out infinite alternate;
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.75));
+}
+
+.ride-vehicle-actor .composite-stage {
+  animation: none; /* Качание задаётся родителю rideBumpy */
+}
+
+/* Переключатель персонажа прямо во время тест-драйва */
+.ride-hero-switcher {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid var(--gold-primary);
+  border-radius: 30px;
+  padding: 6px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px var(--gold-glow);
+  backdrop-filter: blur(12px);
+  z-index: 35;
+}
+
+.ride-hero-label {
+  font-size: 0.85rem;
+  color: var(--gold-light);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 4px;
+}
+
+.ride-hero-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(245, 158, 11, 0.35);
+  background: rgba(30, 41, 59, 0.85);
+  padding: 2px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ride-hero-btn img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.ride-hero-btn:hover {
+  transform: scale(1.12);
+  border-color: var(--gold-light);
+}
+
+.ride-hero-btn.active {
+  border-color: #fef08a;
+  background: var(--gold-primary);
+  transform: scale(1.2);
+  box-shadow: 0 0 16px var(--gold-primary);
+}
+
+/* Панель управления поездкой */
+.ride-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--card-border);
+  padding: 10px 20px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  z-index: 30;
+}
+
+.ride-action-btn {
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.ride-action-btn:hover {
+  background: var(--gold-primary);
+  color: #1a0f00;
+  transform: translateY(-2px);
+}
+
+.ride-action-btn:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   5. ГАРАЖ ВРЕМЕНИ (GARAGE SHOWCASE)
+   ========================================================================== */
+#garage-screen {
+  padding: 24px;
+  overflow-y: auto;
+  align-items: center;
+}
+
+.garage-title-wrap {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.garage-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--gold-light);
+  text-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+}
+
+.garage-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.garage-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.garage-pedestal {
+  background: rgba(22, 27, 46, 0.85);
+  border: 2px solid var(--card-border);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.garage-pedestal.unlocked {
+  border-color: var(--gold-primary);
+  box-shadow: 0 12px 30px var(--gold-glow);
+}
+
+.pedestal-img-wrap {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.pedestal-img-wrap img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.6));
+}
+
+.garage-pedestal.locked img {
+  filter: grayscale(1) opacity(0.35);
+}
+
+.pedestal-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 6px;
+}
+
+.pedestal-status {
+  font-size: 0.85rem;
+  color: #4ade80;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.garage-pedestal.locked .pedestal-status {
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   АНИМАЦИИ И ЭФФЕКТЫ
+   ========================================================================== */
+@keyframes floatSoft {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes goldPulse {
+  0% { transform: scale(1); box-shadow: 0 0 10px var(--gold-glow); }
+  100% { transform: scale(1.02); box-shadow: 0 0 25px var(--gold-primary); }
+}
+
+@keyframes placeSpring {
+  0% { transform: scale(0.7); opacity: 0.5; }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes vehicleBob {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes riderBounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+@keyframes rideBumpy {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
+}
+
+@keyframes moveTrack {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Всплывающее облачко похвалы Мышонка */
+.mouse-bubble {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: var(--parchment);
+  color: #3b280c;
+  padding: 8px 16px;
+  border-radius: 14px;
+  border: 2px solid var(--parchment-border);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  font-size: 0.9rem;
+  font-weight: 700;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 50;
+}
+
+.mouse-bubble.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Конфетти и частицы */
+.particle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 1000;
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ВРЕМЯ транспорт — Мастерская Города Часов · Сказка «Мышонок»</title>
+  <meta name="description" content="Мастерская Города Часов: собери Времясипед, Времясамокат и Мопед из сказочных деталей! Оживи механизмы и прокатись с Мышонком, Улиткой и Котом Мартином.">
+  <meta name="keywords" content="Мышонок, Время транспорт, Город Часов, Времясипед, детская игра, интерактивная книга, Игорь Африкян">
+  <meta name="author" content="Игорь Африкян">
+
+  <!-- Open Graph / Facebook / Telegram / WhatsApp / VK -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mousekin-clocktown.vercel.app/time_transport_game/">
+  <meta property="og:title" content="ВРЕМЯ транспорт · Детская мастерская Города Часов">
+  <meta property="og:description" content="Собери сказочные машины и прокатись с Мышонком, Улиткой и Котом Мартином по Городу Тикающих Часов! Интерактивная игра по сказке Игоря Африкяна.">
+  <meta property="og:image" content="https://mousekin-clocktown.vercel.app/time_transport_game/assets/og_preview.png">
+  <meta property="og:image:secure_url" content="https://mousekin-clocktown.vercel.app/time_transport_game/assets/og_preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ВРЕМЯ транспорт — Детская мастерская Города Часов">
+  <meta property="og:site_name" content="Мышонок в Городе Часов">
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://mousekin-clocktown.vercel.app/time_transport_game/">
+  <meta name="twitter:title" content="ВРЕМЯ транспорт · Детская мастерская Города Часов">
+  <meta name="twitter:description" content="Собери сказочные машины и прокатись с Мышонком, Улиткой и Котом Мартином по Городу Тикающих Часов! Интерактивная игра по сказке Игоря Африкяна.">
+  <meta name="twitter:image" content="https://mousekin-clocktown.vercel.app/time_transport_game/assets/og_preview.png">
+
+  <!-- Icons & Theme -->
+  <link rel="icon" type="image/png" href="assets/characters/mouse_avatar.png">
+  <link rel="apple-touch-icon" href="assets/characters/mouse_avatar.png">
+  <meta name="theme-color" content="#0d1524">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-root">
+    <!-- Атмосферный фон Города Часов -->
+    <div class="ambient-bg"></div>
+
+    <!-- Верхний HUD -->
+    <header class="game-header">
+      <div class="brand-badge" id="btn-home">
+        <img class="brand-icon" src="assets/characters/mouse_avatar.png" alt="Мышонок">
+        <span class="brand-title">ВРЕМЯ транспорт</span>
+      </div>
+
+      <div class="header-controls">
+        <button class="icon-btn" id="btn-garage" title="Гараж собранных машин">🏆</button>
+        <button class="icon-btn" id="btn-mute" title="Выключить / Включить звук">🔊</button>
+      </div>
+    </header>
+
+    <!-- 1. ГЛАВНОЕ МЕНЮ / ВЫБОР МАШИНЫ -->
+    <main class="screen active" id="menu-screen">
+      <div class="menu-hero">
+        <img class="mouse-hero-img" src="assets/characters/mouse_avatar.png" alt="Мышонок">
+        <div class="mouse-speech">
+          <strong>Привет, друг! Я Мышонок.</strong><br>
+          Помоги мне собрать необычные машины Города Тикающих Часов! Каждая деталь отмеряет свой ритм. Выбирай чертёж и за работу!
+        </div>
+      </div>
+
+      <div class="vehicles-grid" id="vehicles-grid">
+        <!-- Генерируется из app.js -->
+      </div>
+    </main>
+
+    <!-- 2. МАСТЕРСКАЯ СБОРКИ (ВЕРСТАК) -->
+    <section class="screen" id="workshop-screen">
+      <div class="workshop-bar">
+        <div class="assembly-info">
+          <span class="assembly-title" id="assembly-title">Времясамокат</span>
+          <span class="assembly-progress-badge" id="assembly-progress">0 из 4</span>
+        </div>
+        <div class="workshop-actions">
+          <button class="icon-btn" id="btn-hint" title="Подсказка детали">💡</button>
+          <button class="icon-btn" onclick="window.TimeTransportGameApp.showScreen('menu')" title="Назад в меню">◀</button>
+        </div>
+      </div>
+
+      <div class="workshop-main">
+        <!-- Чертёжный стол / Blueprint Stage -->
+        <div class="blueprint-stage" id="blueprint-stage">
+          <div class="blueprint-canvas" id="blueprint-canvas">
+            <img class="blueprint-ghost" id="blueprint-ghost" src="" alt="Силуэт">
+            <!-- Динамические пазы и установленные детали -->
+          </div>
+          <div class="mouse-bubble" id="mouse-bubble">Точно по шестерёнке!</div>
+        </div>
+
+        <!-- Полка с деталями -->
+        <div class="parts-shelf" id="parts-shelf">
+          <!-- Генерируется из app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ЭКРАН ОЖИВЛЕНИЯ ТРАНСПОРТА (CELEBRATION) -->
+    <section class="screen" id="celebrate-screen">
+      <div class="celebrate-modal">
+        <div class="celebrate-stage" id="celebrate-stage">
+          <!-- Оживший транспорт и Мышонок -->
+        </div>
+
+        <!-- Вкладки персонажей -->
+        <div class="cameo-tabs" id="cameo-tabs">
+          <!-- Мышонок, Улитка, Кот Мартин, Йозеф -->
+        </div>
+
+        <div class="celebrate-dialogue">
+          <div class="char-header">
+            <img class="char-avatar" id="char-avatar" src="assets/characters/mouse_avatar.png" alt="Аватар">
+            <span class="char-name" id="char-name">Мышонок</span>
+          </div>
+          <div class="char-quote" id="char-quote">«Лихо катится по площади!»</div>
+          <div class="char-story" id="char-story">Транспорт собран и готов к путешествиям.</div>
+        </div>
+
+        <div class="celebrate-btn-row">
+          <button class="primary-btn" id="btn-test-drive">Прокатиться по Городу! 🚀</button>
+          <button class="secondary-btn" id="btn-to-garage">В гараж 🏆</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ТЕСТ-ДРАЙВ ПО ГОРОДУ ЧАСОВ -->
+    <section class="screen" id="ride-screen">
+      <div class="ride-viewport">
+        <div class="ride-track" id="ride-track"></div>
+        <div class="ride-hero-switcher" id="ride-hero-switcher">
+          <span class="ride-hero-label">Герой:</span>
+          <button class="ride-hero-btn active" data-hero="mouse" title="Мышонок">
+            <img src="assets/characters/mouse_avatar.png" alt="Мышонок">
+          </button>
+          <button class="ride-hero-btn" data-hero="snail" title="Улитка">
+            <img src="assets/characters/snail_avatar.png" alt="Улитка">
+          </button>
+          <button class="ride-hero-btn" data-hero="cat" title="Кот Мартин">
+            <img src="assets/characters/cat_avatar.png" alt="Кот Мартин">
+          </button>
+          <button class="ride-hero-btn" data-hero="archivist" title="Йозеф-архивариус">
+            <img src="assets/characters/archivist_avatar.png" alt="Йозеф">
+          </button>
+        </div>
+        <div class="ride-vehicle-actor" id="ride-actor">
+          <!-- Транспорт и выбранный герой -->
+        </div>
+      </div>
+
+      <div class="ride-controls">
+        <button class="ride-action-btn" id="btn-ride-horn">🔔 Звонок / Гудок</button>
+        <button class="ride-action-btn" id="btn-ride-speed">⚡ Бегущее Время!</button>
+        <button class="ride-action-btn" id="btn-ride-back">◀ В мастерскую</button>
+      </div>
+    </section>
+
+    <!-- 5. ГАРАЖ ВРЕМЕНИ -->
+    <section class="screen" id="garage-screen">
+      <div class="garage-title-wrap">
+        <h2 class="garage-title">Гараж Времени Мышонка</h2>
+        <p class="garage-subtitle">Собранные машины готовы к поездкам по Городу Часов</p>
+      </div>
+
+      <div class="garage-showcase" id="garage-showcase">
+        <!-- Карточки экспонатов -->
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

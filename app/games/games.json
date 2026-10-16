@@ -1,0 +1,312 @@
+{
+ "enabled": true,
+ "offerDelayMs": 2500,
+ "games": [
+  {
+   "id": "findmouse",
+   "enabled": true,
+   "icon": "🐭",
+   "type": "module",
+   "script": "findmouse.js",
+   "title": {
+    "RU": "Найди мышонка",
+    "EN": "Find the Mouse",
+    "DE": "Finde die Maus"
+   },
+   "cards": {
+    "17": 7
+   },
+   "task": {
+    "RU": "А теперь спрячь свою игрушку в комнате и позови маму искать. Мышонок любит прятки!",
+    "EN": "Now hide your toy in the room and ask Mum to find it. The Mouse loves hide-and-seek!",
+    "DE": "Versteck jetzt dein Spielzeug im Zimmer und lass Mama suchen. Die Maus liebt Verstecken!"
+   }
+  },
+  {
+   "id": "transport",
+   "enabled": true,
+   "icon": "🚲",
+   "type": "iframe",
+   "src": "../../time_transport_game/index.html?embed=1",
+   "doneMessages": [
+    "TIME_TRANSPORT_ASSEMBLED"
+   ],
+   "closeMessages": [
+    "TIME_TRANSPORT_CLOSED"
+   ],
+   "title": {
+    "RU": "ВРЕМЯ транспорт",
+    "EN": "TIME Transport",
+    "DE": "ZEIT-Fahrzeuge"
+   },
+   "cards": {
+    "6": 3
+   },
+   "task": {
+    "RU": "А теперь построй свой времясипед из кубиков, стульев или коробок. Покажи маме — она скажет, что у него вместо руля.",
+    "EN": "Now build your own Timecycle from blocks, chairs or boxes. Show Mum — she will tell you what it has instead of handlebars.",
+    "DE": "Bau jetzt dein eigenes Zeitrad aus Klötzen, Stühlen oder Kartons. Zeig es Mama – sie sagt dir, was es statt eines Lenkers hat."
+   }
+  },
+  {
+   "id": "puzzle",
+   "enabled": true,
+   "icon": "🧩",
+   "type": "module",
+   "script": "puzzle.js",
+   "title": {
+    "RU": "Собери пазл",
+    "EN": "Put the puzzle together",
+    "DE": "Puzzle legen"
+   },
+   "cards": {
+    "10": 4,
+    "14": 5
+   },
+   "task": {
+    "RU": "Нарисуй свои часы на бумаге, разрежь на кусочки и попроси папу собрать. Сможет ли он?",
+    "EN": "Draw your own clock on paper, cut it into pieces and ask Dad to put it together. Can he do it?",
+    "DE": "Zeichne deine eigene Uhr auf Papier, schneide sie in Stücke und lass Papa sie zusammensetzen. Schafft er das?"
+   }
+  },
+  {
+   "id": "finditem",
+   "enabled": true,
+   "icon": "🔍",
+   "type": "module",
+   "script": "finditem.js",
+   "title": {
+    "RU": "Найди предмет",
+    "EN": "Find the item",
+    "DE": "Finde den Gegenstand"
+   },
+   "cards": {
+    "15": 6
+   },
+   "task": {
+    "RU": "А теперь найди в своей комнате пять круглых предметов. Это будут твои часы. Сколько их?",
+    "EN": "Now find five round objects in your room. They will be your clocks. How many are there?",
+    "DE": "Finde jetzt fünf runde Dinge in deinem Zimmer. Das sind deine Uhren. Wie viele sind es?"
+   }
+  },
+  {
+   "id": "countclocks",
+   "enabled": true,
+   "icon": "🔢",
+   "type": "module",
+   "script": "countclocks.js",
+   "title": {
+    "RU": "Посчитай часы",
+    "EN": "Count the clocks",
+    "DE": "Zähle die Uhren"
+   },
+   "cards": {
+    "5": 2
+   },
+   "task": {
+    "RU": "А теперь посчитай все часы у вас дома. И окна. И деревья во дворе. Что больше?",
+    "EN": "Now count all the clocks at home. And the windows. And the trees in the yard. Which is more?",
+    "DE": "Zähl jetzt alle Uhren bei euch zu Hause. Und die Fenster. Und die Bäume im Hof. Was ist mehr?"
+   }
+  },
+  {
+   "id": "repeat",
+   "enabled": true,
+   "icon": "🎵",
+   "type": "module",
+   "script": "repeat.js",
+   "title": {
+    "RU": "Повтори за мышонком",
+    "EN": "Repeat after the Mouse",
+    "DE": "Mach der Maus nach"
+   },
+   "cards": {
+    "18": 8
+   },
+   "task": {
+    "RU": "А теперь ты покажи маме три движения — и она повторит. Потом наоборот.",
+    "EN": "Now show Mum three moves — and she will repeat them. Then the other way round.",
+    "DE": "Zeig jetzt Mama drei Bewegungen – und sie macht sie nach. Dann umgekehrt."
+   }
+  },
+  {
+   "id": "colormouse",
+   "enabled": true,
+   "icon": "🎨",
+   "type": "module",
+   "script": "colormouse.js",
+   "title": {
+    "RU": "Раскрась мышонка",
+    "EN": "Colour the Mouse",
+    "DE": "Male die Maus an"
+   },
+   "cards": {
+    "20": 10
+   },
+   "task": {
+    "RU": "Распечатай контур и раскрась настоящими карандашами. Повесь на стену.",
+    "EN": "Print the outline and colour it with real pencils. Hang it on the wall.",
+    "DE": "Drucke den Umriss aus und male ihn mit echten Stiften an. Häng ihn an die Wand."
+   }
+  },
+  {
+   "id": "createclock",
+   "enabled": true,
+   "free": true,
+   "icon": "🕰️",
+   "type": "module",
+   "script": "createclock.js",
+   "title": {
+    "RU": "Создай свои часы",
+    "EN": "Create your clock",
+    "DE": "Erschaffe deine Uhr"
+   },
+   "sub": {
+    "RU": "Пять вопросов — и твои часы",
+    "EN": "Five questions — and your clock",
+    "DE": "Fünf Fragen – und deine Uhr"
+   },
+   "cards": {
+    "19": 9
+   },
+   "task": {
+    "RU": "Сделай такие часы руками — из бумаги, картона, пластилина или коробки. Ты сам решаешь, как они идут. Повесь на стену в детской.",
+    "EN": "Make this clock with your hands — from paper, cardboard, clay or a box. You decide how it runs. Hang it on the wall in your room.",
+    "DE": "Bau diese Uhr mit deinen Händen – aus Papier, Pappe, Knete oder einer Schachtel. Du entscheidest, wie sie geht. Häng sie in deinem Zimmer auf."
+   }
+  },
+  {
+   "id": "chat",
+   "enabled": true,
+   "free": true,
+   "icon": "💬",
+   "type": "module",
+   "script": "chat.js",
+   "title": {
+    "RU": "Чат с персонажами",
+    "EN": "Chat with the characters",
+    "DE": "Chat mit den Figuren"
+   },
+   "sub": {
+    "RU": "Три реплики и вопрос о жизни",
+    "EN": "Three replies and a question about life",
+    "DE": "Drei Antworten und eine Frage"
+   },
+   "task": {
+    "RU": "Ответь на вопрос вслух — маме или папе, а не мне. Они ждут!",
+    "EN": "Answer the question out loud — to Mum or Dad, not to me. They are waiting!",
+    "DE": "Antworte laut auf die Frage – Mama oder Papa, nicht mir. Sie warten!"
+   }
+  },
+  {
+   "id": "family",
+   "enabled": true,
+   "free": true,
+   "icon": "🏙️",
+   "type": "module",
+   "script": "family.js",
+   "title": {
+    "RU": "Город часов моей семьи",
+    "EN": "My Family's Clock City",
+    "DE": "Die Uhrenstadt meiner Familie"
+   },
+   "sub": {
+    "RU": "Игра на бумаге на всю книгу",
+    "EN": "A paper game for the whole book",
+    "DE": "Ein Papierspiel für das ganze Buch"
+   },
+   "task": {
+    "RU": "Возьми лист и нарисуй первые часы — для кого-то из семьи. Дай им имя и историю.",
+    "EN": "Take a sheet of paper and draw the first clock — for someone in your family. Give it a name and a story.",
+    "DE": "Nimm ein Blatt und zeichne die erste Uhr – für jemanden aus deiner Familie. Gib ihr einen Namen und eine Geschichte."
+   }
+  },
+  {
+   "id": "cards",
+   "enabled": true,
+   "free": true,
+   "icon": "🖨️",
+   "type": "link",
+   "href": "cards.html",
+   "title": {
+    "RU": "Карточки для печати",
+    "EN": "Printable cards",
+    "DE": "Karten zum Drucken"
+   },
+   "sub": {
+    "RU": "11 карточек по главам",
+    "EN": "11 cards, one per chapter",
+    "DE": "11 Karten, je Kapitel"
+   }
+  },
+  {
+   "id": "parents",
+   "enabled": true,
+   "free": true,
+   "icon": "👨‍👩‍👧",
+   "type": "info",
+   "title": {
+    "RU": "Для родителей",
+    "EN": "For parents",
+    "DE": "Für Eltern"
+   },
+   "sub": {
+    "RU": "Как читать вместе и что делать после игры",
+    "EN": "How to read together and what to do after a game",
+    "DE": "Wie man gemeinsam liest"
+   },
+   "text": {
+    "RU": [
+     "Читайте одну главу за раз. Не торопитесь.",
+     "Задавайте не все вопросы сразу, а один — тот, что подходит ребёнку по настроению.",
+     "Не превращайте в проверку. Если ребёнок не хочет отвечать — просто прочитайте и сделайте реальное действие с карточки.",
+     "После игры ребёнок должен выйти из приложения с заданием. Если он пошёл строить из кубиков — всё получилось.",
+     "В играх нет кнопок «играть снова» и «дальше». Мышонок устаёт — это задумано.",
+     "Раз в неделю можно добавлять одну фигурку в «Город часов моей семьи».",
+     "Главное — не экран, а разговор и руки. Экран показывает идею, реальность её воплощает."
+    ],
+    "EN": [
+     "Read one chapter at a time. Don't rush.",
+     "Ask one question, the one that suits the child's mood, not all of them at once.",
+     "Don't turn it into a test. If the child doesn't want to answer, just read and do the real task from the card.",
+     "After a game the child should leave the app with a task. If they start building with blocks, it worked.",
+     "There are no 'play again' or 'next' buttons. The Mouse gets tired on purpose.",
+     "Once a week you can add one figure to 'My Family's Clock City'.",
+     "What matters is conversation and hands, not the screen. The screen shows the idea, real life makes it happen."
+    ]
+   }
+  }
+ ],
+ "ui": {
+  "mouseSays": {
+   "RU": "А теперь сделай это сам — без меня",
+   "EN": "Now do it yourself — without me",
+   "DE": "Und jetzt mach es selbst – ohne mich"
+  },
+  "card": {
+   "RU": "Возьми карточку",
+   "EN": "Take card",
+   "DE": "Nimm Karte"
+  },
+  "tired": {
+   "RU": "Мышонок устал, ему пора в свои часы. Закрой меня, пожалуйста.",
+   "EN": "The Mouse is tired — it is time for him to go to his clocks. Please close me.",
+   "DE": "Die Maus ist müde, sie muss zu ihren Uhren. Mach mich bitte zu."
+  },
+  "close": {
+   "RU": "Закрыть",
+   "EN": "Close",
+   "DE": "Schließen"
+  },
+  "print": {
+   "RU": "Распечатать",
+   "EN": "Print",
+   "DE": "Drucken"
+  },
+  "menuTitle": {
+   "RU": "Для родителей и детей",
+   "EN": "For parents and kids",
+   "DE": "Für Eltern und Kinder"
+  }
+ }
+}
