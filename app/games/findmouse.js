@@ -5,24 +5,24 @@
 
   var CLOCKS = [
     {
+      file: 'img/clocks/clock_scooter.webp',
+      name: { RU: 'Часами-пеньком с кукушкой', EN: 'Stump Cuckoo Clock', DE: 'Kuckucksuhr auf dem Baumstumpf' }
+    },
+    {
+      file: 'img/clocks/clock_bike.webp',
+      name: { RU: 'Напольными дедушкиными часами', EN: 'Grandfather Clock', DE: 'Standuhr des Großvaters' }
+    },
+    {
+      file: 'img/clocks/clock_moped.webp',
+      name: { RU: 'Сферическими часами в кольцах', EN: 'Spherical Clock in Rings', DE: 'Sphärischer Uhr in Ringen' }
+    },
+    {
       file: 'img/Szene_18__pROTEST.webp',
       name: { RU: 'Протестными часами', EN: 'Protest Clock', DE: 'Protestuhr' }
     },
     {
-      file: 'img/Szene_18__indecisive.webp',
-      name: { RU: 'Нерешительными часами', EN: 'Indecisive Clock', DE: 'Unentschlossenen Uhr' }
-    },
-    {
       file: 'img/Szene_18__InLove.webp',
       name: { RU: 'Влюблёнными часами', EN: 'In-Love Clock', DE: 'Verliebten Uhr' }
-    },
-    {
-      file: 'img/Szene_18__lost.webp',
-      name: { RU: 'Потерянными часами', EN: 'Lost Clock', DE: 'Verlorenen Uhr' }
-    },
-    {
-      file: 'img/Szene_18__cheese.webp',
-      name: { RU: 'Сырными часами', EN: 'Cheese Clock', DE: 'Käseuhr' }
     }
   ];
 
@@ -47,8 +47,13 @@
     var bx = sc.bx || 0;
     var by = sc.by || 0;
 
+    // Фоновая авторская панорама Города Часов
+    var bgPano = ctx.el('div', 'gm-pano-backdrop');
+    bgPano.style.cssText = 'position:absolute;inset:0;background:url(' + ctx.assets + 'img/clocktown_pano.webp) center bottom / cover no-repeat;opacity:0.38;pointer-events:none;z-index:0;';
+    st.appendChild(bgPano);
+
     var container = ctx.el('div', 'gm-findmouse-round');
-    container.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
+    container.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:1;';
     st.appendChild(container);
 
     function nextRound() {

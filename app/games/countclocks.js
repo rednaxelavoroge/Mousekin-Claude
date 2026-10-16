@@ -5,6 +5,18 @@
 
   var CANONICAL_CLOCKS = [
     {
+      file: 'img/clocks/clock_scooter.webp',
+      name: { RU: 'Часы на пне с кукушкой', EN: 'Stump Cuckoo Clock', DE: 'Kuckucksuhr auf dem Baumstumpf' }
+    },
+    {
+      file: 'img/clocks/clock_bike.webp',
+      name: { RU: 'Напольные дедушкины часы', EN: 'Grandfather Clock', DE: 'Standuhr des Großvaters' }
+    },
+    {
+      file: 'img/clocks/clock_moped.webp',
+      name: { RU: 'Сферические часы в кольцах', EN: 'Spherical Clock in Rings', DE: 'Sphärische Uhr in Ringen' }
+    },
+    {
       file: 'img/Szene_18__pROTEST.webp',
       name: { RU: 'Протестные часы', EN: 'Protest Clocks', DE: 'Protestuhren' }
     },
@@ -44,6 +56,11 @@
     var round = 0;
 
     st.classList.add('gm-dim');
+
+    // Фоновая авторская панорама Города Часов
+    var bgPano = ctx.el('div', 'gm-pano-backdrop');
+    bgPano.style.cssText = 'position:absolute;inset:0;background:url(' + ctx.assets + 'img/clocktown_pano.webp) center bottom / cover no-repeat;opacity:0.38;pointer-events:none;z-index:0;';
+    st.appendChild(bgPano);
 
     // Формируем пул часов: 4 канонических + если есть созданные игроком
     var pool = CANONICAL_CLOCKS.map(function (c) {

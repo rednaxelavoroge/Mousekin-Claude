@@ -7,25 +7,41 @@ import { DIALOGUES } from './dialogues.js';
 import { sound } from './audio.js';
 import { TransportBridge } from './api.js';
 
+// Парные авторские часы для каждого транспорта
+const VEHICLE_CLOCKS = {
+  scooter: {
+    name: 'Часы-кукушка на пне',
+    img: 'assets/clocks/clock_scooter.webp'
+  },
+  bike: {
+    name: 'Напольные дедушкины часы',
+    img: 'assets/clocks/clock_bike.webp'
+  },
+  moped: {
+    name: 'Сферические часы в кольцах',
+    img: 'assets/clocks/clock_moped.webp'
+  }
+};
+
 // Канонические спрайты и выверенные координаты героев на каждом транспорте
 const HERO_SPRITES = {
   mouse: {
     name: 'Мышонок',
     icon: 'assets/characters/mouse_avatar.png',
     bike: {
-      img: 'assets/characters/mouse_cyclist.png',
-      style: 'width: 61%; left: 30.5%; top: -47.5%;'
+      img: 'assets/characters/mouse_cyclist_clean.webp',
+      style: 'width: 54%; left: 32%; top: -34%;'
     },
     scooter: {
-      img: 'assets/characters/mouse_standing.png',
-      style: 'width: 32%; left: 36%; top: -6%;'
+      img: 'assets/characters/mouse_scooter_strawhat_clean.webp',
+      style: 'width: 44%; left: 28%; top: -12%;'
     },
     moped: {
-      img: 'assets/characters/mouse_moped_driver_clean.png',
-      style: 'width: 35%; left: 24%; top: -20%;'
+      img: 'assets/characters/mouse_moped_driver_clean.webp',
+      style: 'width: 42%; left: 17%; top: -24%;'
     },
     monowheel: {
-      img: 'assets/characters/mouse_cyclist.png',
+      img: 'assets/characters/mouse_cyclist_clean.webp',
       style: 'width: 65%; left: 18%; top: -56%;'
     }
   },
@@ -300,6 +316,31 @@ class TimeTransportApp {
       }
       this.blueprintCanvas.appendChild(slot);
     });
+
+    // Хранитель времени текущего чертежа (парные авторские часы)
+    const clockInfo = VEHICLE_CLOCKS[this.currentVehicleId];
+    const stage = document.getElementById('blueprint-stage');
+    let keeper = document.getElementById('blueprint-clock-keeper');
+    if (!keeper && stage) {
+      keeper = document.createElement('div');
+      keeper.id = 'blueprint-clock-keeper';
+      keeper.className = 'blueprint-clock-keeper';
+      stage.appendChild(keeper);
+    }
+    if (keeper) {
+      if (clockInfo) {
+        keeper.style.display = 'flex';
+        keeper.innerHTML = `
+          <img class="clock-keeper-img" src="${clockInfo.img}" alt="${clockInfo.name}">
+          <div class="clock-keeper-meta">
+            <span class="clock-keeper-badge">Хранитель времени</span>
+            <span class="clock-keeper-name">${clockInfo.name}</span>
+          </div>
+        `;
+      } else {
+        keeper.style.display = 'none';
+      }
+    }
 
     // Наполнение полки деталями в перемешанном порядке
     this.populatePartsShelf();
@@ -719,6 +760,12 @@ class TimeTransportApp {
     this.showScreen('ride');
     this.updateRideActor();
     this.updateRideHeroSwitcherUI();
+    const h = this.screens.ride ? this.screens.ride.clientHeight : window.innerHeight;
+    const cycleWidth = Math.round(h * (8801 / 1240));
+    const track = document.getElementById('ride-track');
+    if (track) {
+      track.style.setProperty('--cycle-width', `${cycleWidth}px`);
+    }
     sound.playRideTrack();
   }
 
@@ -810,14 +857,17 @@ class TimeTransportApp {
       if (!v) return;
 
       const isUnlocked = progress.assembled.includes(vId);
+      const clock = VEHICLE_CLOCKS[vId];
       const ped = document.createElement('div');
       ped.className = `garage-pedestal ${isUnlocked ? 'unlocked' : 'locked'}`;
 
       ped.innerHTML = `
         <div class="pedestal-img-wrap">
-          <img src="assets/${v.full_image}" alt="${v.title}">
+          <img class="pedestal-vehicle-img" src="assets/${v.full_image_webp || v.full_image}" alt="${v.title}">
+          ${clock ? `<img class="pedestal-clock-img" src="${clock.img}" alt="${clock.name}" title="${clock.name}">` : ''}
         </div>
         <h4 class="pedestal-name">${v.title}</h4>
+        ${clock ? `<div class="pedestal-clock-title">🕰️ ${clock.name}</div>` : ''}
         <div class="pedestal-status">${isUnlocked ? '⭐ Готов к поездкам' : '🔒 Ещё не собран'}</div>
         <button class="primary-btn" style="width: 100%; font-size: 0.9rem;">
           ${isUnlocked ? 'Прокатиться 🚀' : 'Собрать 🔨'}
